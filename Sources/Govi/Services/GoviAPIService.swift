@@ -85,15 +85,185 @@ public actor GoviAPIService {
         }
         
         // 2. Sovereign Local Deterministic Fallback Engine (Native iOS Simulation)
-        return simulateResponse(for: text, agent: agent, userProfile: userProfile)
+        return await simulateResponse(for: text, agent: agent, userProfile: userProfile)
     }
     
     private func simulateResponse(
         for prompt: String,
         agent: GovBrAgent,
         userProfile: UserProfile
-    ) -> (reply: String, screens: [ScreenItem], suggestedActions: [String], actionCard: ActionCard?) {
+    ) async -> (reply: String, screens: [ScreenItem], suggestedActions: [String], actionCard: ActionCard?) {
         let lower = prompt.lowercased()
+        
+        // ---------------------------------------------------------
+        // AÇÕES NÃO INTEGRADAS -> Registrar na Tabela de Integrações
+        // ---------------------------------------------------------
+        
+        // 1. Agendamento Presencial / Perícia Médica no INSS ou SUS
+        if lower.contains("agendar") || lower.contains("agendamento") || lower.contains("pericia presencial") || lower.contains("perícia presencial") || lower.contains("consulta medica") || lower.contains("consulta médica") {
+            let title = "Agendamento Presencial de Perícia / Atendimento"
+            let agency = "INSS / Ministério da Saúde"
+            let category = "Previdência & Benefícios"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Ainda não consigo realizar esse agendamento presencial diretamente por aqui.\n\n📋 **Já anotei sua solicitação na Tabela de Integrações para o Futuro!** Você pode acompanhar os pedidos registrados na aba **Conectar**.\n\nEnquanto essa integração está em desenvolvimento, você pode agendar pelo telefone **135** ou pelo portal oficial **meu.inss.gov.br**.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Simular Aposentadoria", "Extrato CNIS"],
+                actionCard: nil
+            )
+        }
+        
+        // 2. Emissão de Passaporte (Polícia Federal)
+        if lower.contains("passaporte") || lower.contains("policia federal") || lower.contains("polícia federal") || lower.contains("visto") {
+            let title = "Emissão de Passaporte e Pagamento de GRU"
+            let agency = "Polícia Federal"
+            let category = "Cidadania & Viagem"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Ainda não possuo integração para emissão de passaporte diretamente no app.\n\n📋 **Já registrei essa demanda na nossa Tabela de Integrações para o Futuro** (na aba **Conectar**) para ser priorizada!\n\nPara solicitar hoje, preencha o formulário eletrônico e emita a taxa GRU diretamente no portal **gov.br/pf**.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Emitir Certidão (CND)", "Consultar CPF"],
+                actionCard: nil
+            )
+        }
+        
+        // 3. Serviços Eleitorais / Título de Eleitor (TSE)
+        if lower.contains("titulo") || lower.contains("título") || lower.contains("eleitor") || lower.contains("eleitoral") || lower.contains("votar") || lower.contains("justificativa") {
+            let title = "Serviços Eleitorais e Transferência de Título"
+            let agency = "Tribunal Superior Eleitoral (TSE)"
+            let category = "Cidadania & Justiça"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Ainda não consigo realizar operações de título de eleitor diretamente por aqui.\n\n📋 **Anotei sua solicitação na Tabela de Integrações para o Futuro** (disponível na aba **Conectar**)!\n\nEnquanto isso, você pode regularizar ou transferir seu título através do sistema **Título Net** no portal **tse.jus.br**.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Consultar outros serviços"],
+                actionCard: nil
+            )
+        }
+        
+        // 4. Transações Bancárias Privadas / Empréstimos / Pix Privado
+        if lower.contains("transferir") || lower.contains("emprestimo") || lower.contains("empréstimo") || lower.contains("banco") || (lower.contains("pix") && (lower.contains("amigo") || lower.contains("conta") || lower.contains("reais") || lower.contains("r$"))) {
+            let title = "Integração Bancária e Empréstimos (Open Finance)"
+            let agency = "Sistema Financeiro Nacional (Banco Central)"
+            let category = "Serviços Financeiros"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "O Govi processa guias oficiais governamentais (como DAS e IPVA), mas ainda não realiza transferências bancárias particulares nem contratação de empréstimos.\n\n📋 **Já anotei essa funcionalidade na nossa Tabela de Integrações para o Futuro!**\n\nPara essas operações, utilize diretamente o aplicativo do seu banco ou internet banking.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Pagar DAS-MEI", "Pagar IPVA"],
+                actionCard: nil
+            )
+        }
+        
+        // 5. Recurso de Multas de Trânsito / Defesa Prévia
+        if lower.contains("recurso") || lower.contains("cancelar multa") || lower.contains("contestar") || lower.contains("pontos cnh") {
+            let title = "Recurso e Defesa de Multas de Trânsito"
+            let agency = "Detran / JARI / Cetran"
+            let category = "Trânsito & Mobilidade"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Ainda não tenho suporte para protocolar recursos ou defesas de autuações de trânsito diretamente.\n\n📋 **Adicionei essa solicitação à Tabela de Integrações para o Futuro** na aba **Conectar**!\n\nVocê pode protocolar o recurso administrativo pelo portal online do **Detran** do seu estado ou junto à **JARI**.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Consultar IPVA e débitos", "Ver CRLV Digital"],
+                actionCard: nil
+            )
+        }
+        
+        // 6. Serviços Municipais (IPTU / Alvará / Prefeitura)
+        if lower.contains("iptu") || lower.contains("prefeitura") || lower.contains("alvara") || lower.contains("alvará") || lower.contains("lixo") {
+            let title = "Integração Municipal: IPTU e Alvarás"
+            let agency = "Prefeitura Municipal"
+            let category = "Serviços Municipais"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Serviços municipais como IPTU e alvarás dependem da integração específica da sua cidade.\n\n📋 **Já registrei essa demanda na nossa Tabela de Integrações para o Futuro** para expandirmos com as prefeituras!\n\nPor favor, consulte o portal oficial da Prefeitura do seu município para emitir essas guias.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "Emitir Certidão Federal (CND)"],
+                actionCard: nil
+            )
+        }
+        
+        // 7. Qualquer outra ação imperativa não suportada
+        if lower.hasPrefix("fazer ") || lower.hasPrefix("cancelar ") || lower.hasPrefix("comprar ") || lower.hasPrefix("assinar ") || lower.hasPrefix("pedir ") || lower.hasPrefix("solicitar ") {
+            let actionName = String(prompt.prefix(40))
+            let title = "Ação Solicitada: \(actionName)"
+            let agency = "Órgão Público Responsável"
+            let category = "Integração Futura"
+            
+            await MainActor.run {
+                IntegrationsStore.shared.recordIntegration(
+                    title: title,
+                    agency: agency,
+                    category: category,
+                    userPrompt: prompt
+                )
+            }
+            
+            return (
+                reply: "Ainda não tenho integração direta para completar essa ação (**\(actionName)**).\n\n📋 **Já anotei sua solicitação na Tabela de Integrações para o Futuro** (disponível na aba **Conectar**) para priorizarmos no roadmap do Govi!\n\nEnquanto isso, você pode verificar o procedimento diretamente no portal oficial do **gov.br**.",
+                screens: [],
+                suggestedActions: ["Ver Tabela de Integrações", "O que você pode fazer?", "Consultar MEI", "Consultar IPVA"],
+                actionCard: nil
+            )
+        }
+        
+        // ---------------------------------------------------------
+        // SERVIÇOS NATIVAMENTE SUPORTADOS
+        // ---------------------------------------------------------
         
         // MEI & Tributos DAS
         if lower.contains("das") || lower.contains("mei") || lower.contains("boleto") {

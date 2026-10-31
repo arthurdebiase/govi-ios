@@ -37,6 +37,7 @@
 		880833780D008E452F7312FE /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F160C35669E733680F5893 /* Conversation.swift */; };
 		8C05C6CB596FB7D51BA8BA2A /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E5C6742A8CD52EF67CED4 /* Agent.swift */; };
 		96F11A2CAFA642F3FAD9A2F2 /* SuggestedActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4F8F6C4029C4E314F6785 /* SuggestedActionsView.swift */; };
+		9D1941B299CBBD6CC3E38F72 /* FutureIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */; };
 		A14E33FA3EF50112B1B6F3F8 /* MatrixModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5026C31FA562B6078C3780EF /* MatrixModels.swift */; };
 		AA891E4F83A2C4088172FC19 /* ActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844395C808CCFFB5AD0E1830 /* ActionCardView.swift */; };
 		B198DA8A1AEA9A6FE77EF262 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059FF5845F89399711050C2B /* MainTabView.swift */; };
@@ -50,6 +51,7 @@
 		D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA732A1C078A078821A8BF /* GoviAPIService.swift */; };
 		D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC55B375EB914985B02764B2 /* ConversationRowView.swift */; };
 		F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3C3AB19C116296A99196E /* ScreenGallerySheet.swift */; };
+		F998E253A8CF3B0F63380BA9 /* IntegrationsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7956982341030A09D469FE2C /* IntegrationsStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,7 @@
 		3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationConsentSheet.swift; sourceTree = "<group>"; };
 		42FBA46724849C2F19051E42 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteAndConsentModels.swift; sourceTree = "<group>"; };
+		492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureIntegration.swift; sourceTree = "<group>"; };
 		4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentEditorSheet.swift; sourceTree = "<group>"; };
 		5026C31FA562B6078C3780EF /* MatrixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixModels.swift; sourceTree = "<group>"; };
 		53D65B0A2B2353CFE5DB50DE /* GoviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GoviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +90,7 @@
 		65A8854529D6D23509AFFB9E /* ScreenItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenItem.swift; sourceTree = "<group>"; };
 		725A34F5D4D4369C84D5953A /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		74184AF83E1A9C4C836897B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7956982341030A09D469FE2C /* IntegrationsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationsStore.swift; sourceTree = "<group>"; };
 		825743F8821D2250073F7DFA /* ContactDetailsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsSheet.swift; sourceTree = "<group>"; };
 		82B5E2AE0742DCEC7CDBC08D /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		83063CA0A47F1CE2FE3D5A4A /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 				184E5C6742A8CD52EF67CED4 /* Agent.swift */,
 				54D54CFE57ADD9B30553CE5A /* CivicContact.swift */,
 				32F160C35669E733680F5893 /* Conversation.swift */,
+				492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */,
 				F5733BE257483354B99DA4BB /* GovService.swift */,
 				45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */,
 				5026C31FA562B6078C3780EF /* MatrixModels.swift */,
@@ -259,6 +264,7 @@
 			children = (
 				0DDA732A1C078A078821A8BF /* GoviAPIService.swift */,
 				42FBA46724849C2F19051E42 /* HapticManager.swift */,
+				7956982341030A09D469FE2C /* IntegrationsStore.swift */,
 				F8BB3CBCB2EBCCF57BD50EB1 /* MatrixService.swift */,
 				DB27F4000619326F795528FD /* QRCodeGenerator.swift */,
 			);
@@ -424,12 +430,14 @@
 				0FD2205A3D17AEE8EAF1107F /* ConversationListView.swift in Sources */,
 				D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */,
 				B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */,
+				9D1941B299CBBD6CC3E38F72 /* FutureIntegration.swift in Sources */,
 				66A4D53C4BAC0D130A017F0F /* GlobalSearchView.swift in Sources */,
 				742668BE625B1831884EAAFD /* GovService.swift in Sources */,
 				D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */,
 				5E9152C919355421E95952A8 /* GoviApp.swift in Sources */,
 				402308182F459FD573A8EEDC /* GoviAvatarView.swift in Sources */,
 				57D10A7E4DE464DA73DBD04C /* HapticManager.swift in Sources */,
+				F998E253A8CF3B0F63380BA9 /* IntegrationsStore.swift in Sources */,
 				619BF86C0067E6154F4BCBF9 /* InviteAndConsentModels.swift in Sources */,
 				24F628FDB20BCBA1CD5777D2 /* InviteSheet.swift in Sources */,
 				B198DA8A1AEA9A6FE77EF262 /* MainTabView.swift in Sources */,

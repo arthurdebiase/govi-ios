@@ -76,8 +76,37 @@ public final class ConversationsViewModel {
         }
     }
     
+    private var chatViewModels: [String: ChatViewModel] = [:]
+    
+    public func chatViewModel(for conversationId: String, userProfile: UserProfile) -> ChatViewModel? {
+        guard let conv = conversations.first(where: { $0.id == conversationId }) else {
+            return nil
+        }
+        if let existing = chatViewModels[conversationId] {
+            existing.userProfile = userProfile
+            return existing
+        }
+        let agent = agents.first(where: { $0.id == conv.agentId }) ?? GovBrAgent.defaultAgents[0]
+        let vm = ChatViewModel(
+            conversation: conv,
+            agent: agent,
+            userProfile: userProfile
+        ) { [weak self] updated in
+            self?.updateConversation(updated)
+        }
+        chatViewModels[conversationId] = vm
+        return vm
+    }
+    
+    public func updateConversation(_ updated: Conversation) {
+        if let index = conversations.firstIndex(where: { $0.id == updated.id }) {
+            conversations[index] = updated
+        }
+    }
+    
     public func deleteConversation(_ conversation: Conversation) {
         conversations.removeAll { $0.id == conversation.id }
+        chatViewModels.removeValue(forKey: conversation.id)
         HapticManager.shared.notification(.warning)
     }
     

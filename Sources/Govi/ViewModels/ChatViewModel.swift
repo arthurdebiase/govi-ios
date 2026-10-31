@@ -15,12 +15,20 @@ public final class ChatViewModel {
     public var isShowingContactDetails: Bool = false
     public var isShowingAgentEditor: Bool = false
     
+    public var onUpdate: ((Conversation) -> Void)?
+    
     private let apiService = GoviAPIService.shared
     
-    public init(conversation: Conversation, agent: GovBrAgent, userProfile: UserProfile) {
+    public init(
+        conversation: Conversation,
+        agent: GovBrAgent,
+        userProfile: UserProfile,
+        onUpdate: ((Conversation) -> Void)? = nil
+    ) {
         self.conversation = conversation
         self.agent = agent
         self.userProfile = userProfile
+        self.onUpdate = onUpdate
     }
     
     public func sendCurrentMessage() {
@@ -37,6 +45,7 @@ public final class ChatViewModel {
         let userMessage = Message(role: .user, content: text)
         conversation.messages.append(userMessage)
         conversation.updatedAt = Date()
+        onUpdate?(conversation)
         
         isLoading = true
         
@@ -58,6 +67,7 @@ public final class ChatViewModel {
             
             conversation.messages.append(assistantMessage)
             conversation.updatedAt = Date()
+            onUpdate?(conversation)
             isLoading = false
             
             HapticManager.shared.notification(.success)
