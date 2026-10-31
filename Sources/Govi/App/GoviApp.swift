@@ -10,8 +10,8 @@ public struct GoviApp: App {
     
     public var body: some Scene {
         WindowGroup {
-            ConversationListView(
-                viewModel: conversationsViewModel,
+            MainTabView(
+                conversationsViewModel: conversationsViewModel,
                 profileViewModel: profileViewModel,
                 marketplaceViewModel: marketplaceViewModel
             )

@@ -159,6 +159,14 @@ public struct ConversationListView: View {
                         }
                     }
                 }
+                
+                // Bottom Clearance for Floating Tab Bar
+                Section {
+                    Color.clear
+                        .frame(height: 70)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                }
             }
             .listStyle(.insetGrouped)
             .searchable(text: $viewModel.searchText, prompt: "Buscar em mensagens e serviços gov.br")
@@ -181,7 +189,7 @@ public struct ConversationListView: View {
                     EditButton()
                 }
                 
-                // Trailing: QR Code Convite, Marketplace, Profile, New Chat Menu
+                // Trailing: QR Code Convite Efêmero & Nova Conversa
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     // QR Code / Convite Efêmero 60s
                     Button {
@@ -191,29 +199,6 @@ public struct ConversationListView: View {
                         Image(systemName: "qrcode")
                     }
                     .accessibilityLabel("Meu Convite Seguro")
-                    
-                    // Marketplace gov.br
-                    Button {
-                        HapticManager.shared.impact(.light)
-                        isShowingMarketplaceSheet = true
-                    } label: {
-                        Image(systemName: "square.grid.2x2")
-                    }
-                    .accessibilityLabel("Serviços gov.br")
-                    
-                    // Profile gov.br
-                    Button {
-                        HapticManager.shared.impact(.light)
-                        isShowingProfileSheet = true
-                    } label: {
-                        ZStack(alignment: .bottomTrailing) {
-                            Image(systemName: "person.crop.circle")
-                            Circle()
-                                .fill(profileViewModel.profile.accountLevel == .ouro ? Color(UIColor.systemYellow) : Color(UIColor.systemGray))
-                                .frame(width: 8, height: 8)
-                        }
-                    }
-                    .accessibilityLabel("Perfil e Conta gov.br")
                     
                     // New Message Menu
                     Menu {
