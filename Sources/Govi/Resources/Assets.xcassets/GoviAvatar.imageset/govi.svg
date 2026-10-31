@@ -1,18 +1,13 @@
 <svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_138_2106)">
 <rect width="640" height="640" rx="320" fill="#009440"/>
 <circle cx="320" cy="240" r="160" fill="#302681"/>
-<mask id="mask0_138_2106" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="160" y="80" width="320" height="320">
-<circle cx="320" cy="240" r="160" fill="#302681"/>
-</mask>
-<g mask="url(#mask0_138_2106)">
-<path d="M510.777 260.541C460.401 219.589 402.241 189.283 339.816 171.454C277.391 153.626 211.998 148.646 147.593 156.816L153.634 204.435C211.598 197.081 270.452 201.563 326.635 217.609C382.817 233.654 435.161 260.93 480.5 297.787L510.777 260.541Z" fill="white"/>
+<defs>
+  <clipPath id="blueCircleClip">
+    <circle cx="320" cy="240" r="160"/>
+  </clipPath>
+</defs>
+<g clip-path="url(#blueCircleClip)">
+  <path d="M510.777 260.541C460.401 219.589 402.241 189.283 339.816 171.454C277.391 153.626 211.998 148.646 147.593 156.816L153.634 204.435C211.598 197.081 270.452 201.563 326.635 217.609C382.817 233.654 435.161 260.93 480.5 297.787L510.777 260.541Z" fill="#FFFFFF"/>
 </g>
 <circle cx="320" cy="760" r="320" fill="#FFCB00"/>
-</g>
-<defs>
-<clipPath id="clip0_138_2106">
-<rect width="640" height="640" rx="320" fill="white"/>
-</clipPath>
-</defs>
 </svg>
