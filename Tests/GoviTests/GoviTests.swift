@@ -69,4 +69,38 @@ struct GoviTests {
         let isVerified = await matrixService.verifyPartnerCrossSigning(partnerId: "@camila.mendes:receita.gov.br")
         #expect(isVerified == true)
     }
+    
+    @Test func testEphemeralInviteAndSelectiveDisclosure() async throws {
+        // 1. Test Ephemeral Invite generation & 60s window
+        let invite = EphemeralInvite(
+            senderId: "@arthur:cidadao.gov.br",
+            senderDisplayName: "Arthur Debiase",
+            durationSeconds: 60
+        )
+        #expect(!invite.isExpired)
+        #expect(invite.inviteURL.absoluteString.contains("govi.chat/c/"))
+        
+        // 2. Test Selective Disclosure Permissions defaults
+        let permissions = SelectiveDisclosurePermissions(
+            shareFullName: false,
+            shareGovBrVerificationBadge: true,
+            shareMaskedCpf: false
+        )
+        #expect(permissions.shareFullName == false)
+        #expect(permissions.shareGovBrVerificationBadge == true)
+        #expect(permissions.shareMaskedCpf == false)
+        
+        // 3. Test Handshake & Acceptance via ViewModel
+        await MainActor.run {
+            let vm = ConversationsViewModel()
+            #expect(!vm.pendingRequests.isEmpty)
+            let request = vm.pendingRequests[0]
+            
+            let acceptedConv = vm.acceptConversationRequest(request, permissions: permissions)
+            #expect(acceptedConv.personName == request.senderDisplayName)
+            #expect(acceptedConv.isCrossSigningVerified == true)
+            #expect(acceptedConv.isE2EEEncrypted == true)
+            #expect(vm.pendingRequests.isEmpty)
+        }
+    }
 }

@@ -6,12 +6,24 @@ import SwiftUI
 public final class ConversationsViewModel {
     public var conversations: [Conversation] = []
     public var agents: [GovBrAgent] = GovBrAgent.defaultAgents
+    public var pendingRequests: [ConversationRequest] = []
     public var selectedFilter: ConversationPartnerType = .all
     public var searchText: String = ""
     public var selectedConversationId: String?
     
     public init() {
         self.conversations = Self.loadDefaultConversations()
+        self.pendingRequests = [
+            ConversationRequest(
+                id: "req-beatriz",
+                senderDisplayName: "Dra. Beatriz Mendes",
+                senderAccountLevel: .ouro,
+                senderInitials: "BM",
+                senderMatrixId: "@beatriz.mendes:inss.gov.br",
+                timestamp: "Há 5 minutos",
+                introMessage: "Olá! Sou perita médica federal e gostaria de validar sua documentação para perícia presencial."
+            )
+        ]
     }
     
     public var pinnedConversations: [Conversation] {
@@ -68,6 +80,45 @@ public final class ConversationsViewModel {
         HapticManager.shared.notification(.warning)
     }
     
+    public func acceptConversationRequest(
+        _ request: ConversationRequest,
+        permissions: SelectiveDisclosurePermissions
+    ) -> Conversation {
+        let now = Date()
+        let newConv = Conversation(
+            id: "conv-\(UUID().uuidString.prefix(8))",
+            type: "person",
+            title: "Atendimento Perícia Médica",
+            personName: request.senderDisplayName,
+            personRole: "Perita Médica Federal • INSS",
+            personInitials: request.senderInitials,
+            personOnline: true,
+            matrixRoomId: "!pericia_\(UUID().uuidString.prefix(6)):inss.gov.br",
+            matrixPartnerId: request.senderMatrixId,
+            isE2EEEncrypted: true,
+            isCrossSigningVerified: true,
+            homeserverDomain: "inss.gov.br",
+            messages: [
+                Message(
+                    role: .assistant,
+                    content: "Olá! Recebi seu aceite seguro. Você autorizou o compartilhamento dos seguintes dados cívicos:\n\n• **Nome:** \(permissions.shareFullName ? "Nome Completo" : "Pseudônimo")\n• **Autenticação:** Conta Ouro gov.br ✅\n\(permissions.shareMaskedCpf ? "• **CPF:** Compartilhado\n" : "")\nComo posso orientar seu processo hoje?",
+                    timestamp: "Agora"
+                )
+            ],
+            createdAt: now,
+            updatedAt: now
+        )
+        conversations.insert(newConv, at: 0)
+        pendingRequests.removeAll { $0.id == request.id }
+        HapticManager.shared.notification(.success)
+        return newConv
+    }
+    
+    public func declineConversationRequest(_ request: ConversationRequest) {
+        pendingRequests.removeAll { $0.id == request.id }
+        HapticManager.shared.notification(.warning)
+    }
+    
     public func createNewConversation(with agent: GovBrAgent) -> Conversation {
         let newConv = Conversation(
             id: "conv-\(UUID().uuidString.prefix(8))",
@@ -76,6 +127,11 @@ public final class ConversationsViewModel {
             title: "Nova conversa com \(agent.name)",
             agentName: agent.name,
             agentColors: agent.colors,
+            matrixRoomId: "!agent_\(agent.id)_\(UUID().uuidString.prefix(6)):gov.br",
+            matrixPartnerId: "@\(agent.id):ia.gov.br",
+            isE2EEEncrypted: true,
+            isCrossSigningVerified: true,
+            homeserverDomain: "ia.gov.br",
             messages: [
                 Message(
                     role: .assistant,
@@ -164,6 +220,9 @@ public final class ConversationsViewModel {
                 title: "Emissão de Guia DAS-MEI",
                 agentName: "MEI & Tributos",
                 agentColors: AgentColors(background: "#059669", semiCircle: "#34D399", circle: "#FBBF24", stripe: "#064E3B"),
+                matrixRoomId: "!das_mei:receita.gov.br",
+                matrixPartnerId: "@mei:fazenda.gov.br",
+                homeserverDomain: "receita.gov.br",
                 isPinned: true,
                 unreadCount: 1,
                 messages: [
@@ -190,6 +249,9 @@ public final class ConversationsViewModel {
                 personRole: "Auditora-Fiscal • Receita Federal",
                 personInitials: "CM",
                 personOnline: true,
+                matrixRoomId: "!malha_fina_irpf:receita.gov.br",
+                matrixPartnerId: "@camila.mendes:receita.gov.br",
+                homeserverDomain: "receita.gov.br",
                 isPinned: true,
                 messages: [
                     Message(role: .user, content: "Boa tarde Dra. Camila, recebi um aviso sobre comprovação de despesa médica na minha declaração.", timestamp: "11:42"),
@@ -210,6 +272,9 @@ public final class ConversationsViewModel {
                 title: "Certidão Negativa de Débitos",
                 agentName: "Govi (Padrão)",
                 agentColors: .default,
+                matrixRoomId: "!cnd_federal:receita.gov.br",
+                matrixPartnerId: "@govi:ia.gov.br",
+                homeserverDomain: "receita.gov.br",
                 messages: [
                     Message(role: .user, content: "Emitir minha certidão negativa de débitos federais", timestamp: "Ontem"),
                     Message(
@@ -230,6 +295,9 @@ public final class ConversationsViewModel {
                 title: "Débitos e IPVA Placa BRA2E19",
                 agentName: "Trânsito & Veículos",
                 agentColors: AgentColors(background: "#0284C7", semiCircle: "#38BDF8", circle: "#0F172A", stripe: "#F8FAFC"),
+                matrixRoomId: "!veiculo_ipva:detran.sp.gov.br",
+                matrixPartnerId: "@transito:detran.sp.gov.br",
+                homeserverDomain: "detran.sp.gov.br",
                 messages: [
                     Message(role: .user, content: "Consultar débitos e IPVA da placa BRA2E19", timestamp: "28 Out"),
                     Message(
@@ -251,6 +319,9 @@ public final class ConversationsViewModel {
                 personRole: "Analista de Benefícios • INSS",
                 personInitials: "MO",
                 personOnline: true,
+                matrixRoomId: "!pericia_inss:inss.gov.br",
+                matrixPartnerId: "@marcos.oliveira:inss.gov.br",
+                homeserverDomain: "inss.gov.br",
                 messages: [
                     Message(role: .user, content: "Olá Marcos, preciso reagendar minha perícia médica presencial para o turno da manhã.", timestamp: "27 Out"),
                     Message(
@@ -262,25 +333,6 @@ public final class ConversationsViewModel {
                 ],
                 createdAt: now.addingTimeInterval(-259200),
                 updatedAt: now.addingTimeInterval(-259200)
-            ),
-            Conversation(
-                id: "conv-previdencia-aposentadoria",
-                agentId: "agent-previdencia",
-                type: "agent",
-                title: "Simulação de Aposentadoria",
-                agentName: "Previdência & Benefícios",
-                agentColors: AgentColors(background: "#6D28D9", semiCircle: "#A78BFA", circle: "#F59E0B", stripe: "#2E1065"),
-                messages: [
-                    Message(role: .user, content: "Consulte meu tempo de contribuição e simule minha aposentadoria pelo INSS", timestamp: "25 Out"),
-                    Message(
-                        role: .assistant,
-                        content: "Acessando o extrato previdenciário (CNIS) pelo Meu INSS.\n\n* **Tempo total apurado:** 28 anos, 4 meses e 12 dias;\n* **Regra mais vantajosa:** Sistema de Pontos (Regra 86/96);\n* **Estimativa de aposentadoria:** Novembro/2027.",
-                        suggestedActions: ["Baixar Extrato CNIS em PDF", "Como agendar atendimento presencial?"],
-                        timestamp: "25 Out"
-                    )
-                ],
-                createdAt: now.addingTimeInterval(-345600),
-                updatedAt: now.addingTimeInterval(-345600)
             )
         ]
     }

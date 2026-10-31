@@ -11,13 +11,16 @@
 		0FD2205A3D17AEE8EAF1107F /* ConversationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EE1214C6856C27784DFBF /* ConversationListView.swift */; };
 		0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8854529D6D23509AFFB9E /* ScreenItem.swift */; };
 		1A1A8BD897FAB312E959447D /* MatrixService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BB3CBCB2EBCCF57BD50EB1 /* MatrixService.swift */; };
+		24F628FDB20BCBA1CD5777D2 /* InviteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */; };
 		2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */; };
 		41BA198F42CE46780EA1B5AB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5907381D63022200E9527F89 /* UserProfile.swift */; };
 		48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */; };
 		51277AFC41DAD13E43E152C4 /* ActionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB47DCEAD923E82F024D9 /* ActionCard.swift */; };
 		57D10A7E4DE464DA73DBD04C /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FBA46724849C2F19051E42 /* HapticManager.swift */; };
 		5E9152C919355421E95952A8 /* GoviApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27490AB79E97AF325B6A2F /* GoviApp.swift */; };
+		619BF86C0067E6154F4BCBF9 /* InviteAndConsentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */; };
 		6C0FEFE7C2F5B93C782DCDE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74184AF83E1A9C4C836897B7 /* Assets.xcassets */; };
+		6F5FC8627DC9327EC695B528 /* ConversationConsentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */; };
 		742668BE625B1831884EAAFD /* GovService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5733BE257483354B99DA4BB /* GovService.swift */; };
 		78A18599663B76267A3BDC04 /* AgentEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */; };
 		7993B6A05798F04B5D0D5FD4 /* GoviTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640AF213D0EE5E782A92A291 /* GoviTests.swift */; };
@@ -32,6 +35,7 @@
 		B3B81398784A773664566319 /* MarketplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F69DDFBF9CC12E46F86C4D /* MarketplaceViewModel.swift */; };
 		B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83063CA0A47F1CE2FE3D5A4A /* ConversationsViewModel.swift */; };
 		B95EDAD7D406FBAA05E82840 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2AF14B73A92075BE2FEC76 /* ChatDetailView.swift */; };
+		BA717B798147893C50777D7C /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB27F4000619326F795528FD /* QRCodeGenerator.swift */; };
 		BE9314289B8D423D9418E015 /* ContactDetailsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825743F8821D2250073F7DFA /* ContactDetailsSheet.swift */; };
 		C597E8F06253ED6BCE4F0E46 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5E2AE0742DCEC7CDBC08D /* Message.swift */; };
 		C629657779954AA33AD4743F /* MarketplaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */; };
@@ -59,7 +63,9 @@
 		208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAvatarView.swift; sourceTree = "<group>"; };
 		2ED4F8F6C4029C4E314F6785 /* SuggestedActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedActionsView.swift; sourceTree = "<group>"; };
 		32F160C35669E733680F5893 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationConsentSheet.swift; sourceTree = "<group>"; };
 		42FBA46724849C2F19051E42 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteAndConsentModels.swift; sourceTree = "<group>"; };
 		4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentEditorSheet.swift; sourceTree = "<group>"; };
 		5026C31FA562B6078C3780EF /* MatrixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixModels.swift; sourceTree = "<group>"; };
 		53D65B0A2B2353CFE5DB50DE /* GoviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GoviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,10 +83,12 @@
 		8D3EE1214C6856C27784DFBF /* ConversationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
 		94CEB47DCEAD923E82F024D9 /* ActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCard.swift; sourceTree = "<group>"; };
 		C8F69DDFBF9CC12E46F86C4D /* MarketplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceViewModel.swift; sourceTree = "<group>"; };
+		DB27F4000619326F795528FD /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		DC55B375EB914985B02764B2 /* ConversationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRowView.swift; sourceTree = "<group>"; };
 		E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBarView.swift; sourceTree = "<group>"; };
 		EF2AF14B73A92075BE2FEC76 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		F5733BE257483354B99DA4BB /* GovService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovService.swift; sourceTree = "<group>"; };
+		F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteSheet.swift; sourceTree = "<group>"; };
 		F8BB3CBCB2EBCCF57BD50EB1 /* MatrixService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixService.swift; sourceTree = "<group>"; };
 		F8C2CC58063E46CD9517ACCC /* Govi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Govi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC540C00B0DE93C815347452 /* ProfileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSheet.swift; sourceTree = "<group>"; };
@@ -113,6 +121,7 @@
 				184E5C6742A8CD52EF67CED4 /* Agent.swift */,
 				32F160C35669E733680F5893 /* Conversation.swift */,
 				F5733BE257483354B99DA4BB /* GovService.swift */,
+				45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */,
 				5026C31FA562B6078C3780EF /* MatrixModels.swift */,
 				82B5E2AE0742DCEC7CDBC08D /* Message.swift */,
 				65A8854529D6D23509AFFB9E /* ScreenItem.swift */,
@@ -150,6 +159,8 @@
 			children = (
 				4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */,
 				825743F8821D2250073F7DFA /* ContactDetailsSheet.swift */,
+				3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */,
+				F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */,
 				6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */,
 				FC540C00B0DE93C815347452 /* ProfileSheet.swift */,
 			);
@@ -203,6 +214,7 @@
 				0DDA732A1C078A078821A8BF /* GoviAPIService.swift */,
 				42FBA46724849C2F19051E42 /* HapticManager.swift */,
 				F8BB3CBCB2EBCCF57BD50EB1 /* MatrixService.swift */,
+				DB27F4000619326F795528FD /* QRCodeGenerator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -342,6 +354,7 @@
 				7A29807C87DB648794C3C9C5 /* ChatViewModel.swift in Sources */,
 				BE9314289B8D423D9418E015 /* ContactDetailsSheet.swift in Sources */,
 				880833780D008E452F7312FE /* Conversation.swift in Sources */,
+				6F5FC8627DC9327EC695B528 /* ConversationConsentSheet.swift in Sources */,
 				0FD2205A3D17AEE8EAF1107F /* ConversationListView.swift in Sources */,
 				D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */,
 				B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */,
@@ -349,6 +362,8 @@
 				D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */,
 				5E9152C919355421E95952A8 /* GoviApp.swift in Sources */,
 				57D10A7E4DE464DA73DBD04C /* HapticManager.swift in Sources */,
+				619BF86C0067E6154F4BCBF9 /* InviteAndConsentModels.swift in Sources */,
+				24F628FDB20BCBA1CD5777D2 /* InviteSheet.swift in Sources */,
 				C629657779954AA33AD4743F /* MarketplaceSheet.swift in Sources */,
 				B3B81398784A773664566319 /* MarketplaceViewModel.swift in Sources */,
 				A14E33FA3EF50112B1B6F3F8 /* MatrixModels.swift in Sources */,
@@ -357,6 +372,7 @@
 				7FAECA4704F25DC2774BF5C8 /* MessageBubbleView.swift in Sources */,
 				0BAAA7C1EA0C0C7633FA57F6 /* ProfileSheet.swift in Sources */,
 				83C4237688A9BA959D693A6E /* ProfileViewModel.swift in Sources */,
+				BA717B798147893C50777D7C /* QRCodeGenerator.swift in Sources */,
 				F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */,
 				0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */,
 				96F11A2CAFA642F3FAD9A2F2 /* SuggestedActionsView.swift in Sources */,

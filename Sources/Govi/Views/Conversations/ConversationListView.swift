@@ -7,6 +7,8 @@ public struct ConversationListView: View {
     
     @State private var isShowingProfileSheet: Bool = false
     @State private var isShowingMarketplaceSheet: Bool = false
+    @State private var isShowingInviteSheet: Bool = false
+    @State private var selectedRequestForConsent: ConversationRequest?
     @State private var navigationPath = NavigationPath()
     
     public init(
@@ -22,6 +24,59 @@ public struct ConversationListView: View {
     public var body: some View {
         NavigationStack(path: $navigationPath) {
             List {
+                // Pending Conversation Requests (Handshake & Consent Flow)
+                if !viewModel.pendingRequests.isEmpty && viewModel.searchText.isEmpty {
+                    Section("Solicitações de Conversa") {
+                        ForEach(viewModel.pendingRequests) { req in
+                            Button(action: {
+                                HapticManager.shared.impact(.medium)
+                                selectedRequestForConsent = req
+                            }) {
+                                HStack(spacing: 12) {
+                                    Circle()
+                                        .fill(Color(UIColor.systemGreen).opacity(0.15))
+                                        .frame(width: 44, height: 44)
+                                        .overlay(
+                                            Text(req.senderInitials)
+                                                .font(.headline)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color(UIColor.systemGreen))
+                                        )
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        HStack(spacing: 4) {
+                                            Text(req.senderDisplayName)
+                                                .font(.headline)
+                                                .foregroundStyle(Color(UIColor.label))
+                                            Image(systemName: "checkmark.seal.fill")
+                                                .font(.caption)
+                                                .foregroundStyle(Color(UIColor.systemGreen))
+                                        }
+                                        
+                                        Text(req.introMessage)
+                                            .font(.caption)
+                                            .foregroundStyle(Color(UIColor.secondaryLabel))
+                                            .lineLimit(1)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Text("Revisar")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(Color(UIColor.systemBlue))
+                                        .foregroundStyle(Color.white)
+                                        .clipShape(Capsule())
+                                }
+                                .padding(.vertical, 4)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                
                 // Filter Picker Section (Apple Messages style)
                 Section {
                     Picker("Filtro", selection: $viewModel.selectedFilter) {
@@ -126,8 +181,17 @@ public struct ConversationListView: View {
                     EditButton()
                 }
                 
-                // Trailing: Marketplace, Profile, New Chat Menu
+                // Trailing: QR Code Convite, Marketplace, Profile, New Chat Menu
                 ToolbarItemGroup(placement: .topBarTrailing) {
+                    // QR Code / Convite Efêmero 60s
+                    Button {
+                        HapticManager.shared.impact(.light)
+                        isShowingInviteSheet = true
+                    } label: {
+                        Image(systemName: "qrcode")
+                    }
+                    .accessibilityLabel("Meu Convite Seguro")
+                    
                     // Marketplace gov.br
                     Button {
                         HapticManager.shared.impact(.light)
@@ -176,6 +240,22 @@ public struct ConversationListView: View {
             }
             .sheet(isPresented: $isShowingMarketplaceSheet) {
                 MarketplaceSheet(viewModel: marketplaceViewModel)
+            }
+            .sheet(isPresented: $isShowingInviteSheet) {
+                InviteSheet(userProfile: profileViewModel.profile)
+            }
+            .sheet(item: $selectedRequestForConsent) { req in
+                ConversationConsentSheet(
+                    request: req,
+                    userProfile: profileViewModel.profile,
+                    onAccept: { perms in
+                        let newConv = viewModel.acceptConversationRequest(req, permissions: perms)
+                        navigationPath.append(newConv.id)
+                    },
+                    onDecline: {
+                        viewModel.declineConversationRequest(req)
+                    }
+                )
             }
         }
     }
