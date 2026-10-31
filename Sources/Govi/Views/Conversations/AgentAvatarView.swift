@@ -37,15 +37,8 @@ public struct AgentAvatarView: View {
                             .foregroundStyle(Color(UIColor.label))
                     )
             } else {
-                // AI Agent Circular Avatar
-                Circle()
-                    .fill(Color(UIColor.secondarySystemFill))
-                    .frame(width: size, height: size)
-                    .overlay(
-                        Image(systemName: avatarType?.systemImageName ?? "sparkles")
-                            .font(.system(size: size * 0.42, weight: .medium))
-                            .foregroundStyle(Color(UIColor.systemBlue))
-                    )
+                // AI Agent Circular Avatar using official govi.svg
+                GoviAvatarView(size: size)
             }
             
             // Online status indicator badge

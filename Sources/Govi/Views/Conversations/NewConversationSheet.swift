@@ -6,6 +6,14 @@ public struct NewConversationSheet: View {
     let onSelect: (Conversation) -> Void
     
     @State private var searchText: String = ""
+    @State private var isShowingCreateAgentSheet: Bool = false
+    @State private var newAgentDraft = GovBrAgent(
+        id: "custom-\(UUID().uuidString.prefix(6))",
+        name: "",
+        description: "",
+        avatarType: .custom,
+        systemPrompt: "Você é um agente virtual gov.br personalizado."
+    )
     
     public init(
         viewModel: ConversationsViewModel,
@@ -20,8 +28,7 @@ public struct NewConversationSheet: View {
             return viewModel.agents
         }
         return viewModel.agents.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText) ||
-            $0.description.localizedCaseInsensitiveContains(searchText)
+            $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
     
@@ -30,16 +37,132 @@ public struct NewConversationSheet: View {
             return viewModel.savedContacts
         }
         return viewModel.savedContacts.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText) ||
-            $0.role.localizedCaseInsensitiveContains(searchText) ||
-            $0.department.localizedCaseInsensitiveContains(searchText)
+            $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
     
     public var body: some View {
         NavigationStack {
             List {
-                // Section 1: Official AI Agents
+                // Section 0: Quick Action Options (Apple Style)
+                if searchText.isEmpty {
+                    Section {
+                        // 1. Nova conversa
+                        Button(action: {
+                            HapticManager.shared.impact(.light)
+                            if let firstAgent = viewModel.agents.first {
+                                let conv = viewModel.createNewConversation(with: firstAgent)
+                                dismiss()
+                                onSelect(conv)
+                            }
+                        }) {
+                            HStack(spacing: 14) {
+                                Circle()
+                                    .fill(Color(UIColor.systemBlue))
+                                    .frame(width: 38, height: 38)
+                                    .overlay(
+                                        Image(systemName: "bubble.left.and.bubble.right.fill")
+                                            .font(.system(size: 17, weight: .semibold))
+                                            .foregroundStyle(Color.white)
+                                    )
+                                
+                                Text("Nova conversa")
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(UIColor.label))
+                                
+                                Spacer()
+                            }
+                            .padding(.vertical, 2)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        // 2. Criar novo agente
+                        Button(action: {
+                            HapticManager.shared.impact(.light)
+                            newAgentDraft = GovBrAgent(
+                                id: "custom-\(UUID().uuidString.prefix(6))",
+                                name: "Meu Agente IA",
+                                description: "Agente personalizado pelo cidadão",
+                                avatarType: .custom,
+                                systemPrompt: "Você é um assistente virtual gov.br."
+                            )
+                            isShowingCreateAgentSheet = true
+                        }) {
+                            HStack(spacing: 14) {
+                                Circle()
+                                    .fill(Color(UIColor.systemGreen))
+                                    .frame(width: 38, height: 38)
+                                    .overlay(
+                                        Image(systemName: "sparkles")
+                                            .font(.system(size: 17, weight: .semibold))
+                                            .foregroundStyle(Color.white)
+                                    )
+                                
+                                Text("Criar novo agente")
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(UIColor.label))
+                                
+                                Spacer()
+                            }
+                            .padding(.vertical, 2)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        // 3. Novo Grupo
+                        Button(action: {
+                            HapticManager.shared.impact(.light)
+                            let groupConv = Conversation(
+                                id: "conv-group-\(UUID().uuidString.prefix(6))",
+                                type: "group",
+                                title: "Novo Grupo Cívico",
+                                personName: "Grupo Cívico",
+                                personInitials: "GP",
+                                personOnline: true,
+                                matrixRoomId: "!group_\(UUID().uuidString.prefix(6)):gov.br",
+                                matrixPartnerId: "@group:gov.br",
+                                isE2EEEncrypted: true,
+                                isCrossSigningVerified: true,
+                                homeserverDomain: "gov.br",
+                                messages: [
+                                    Message(
+                                        role: .assistant,
+                                        content: "Grupo seguro criado com criptografia ponta a ponta e governança gov.br.",
+                                        timestamp: "Agora"
+                                    )
+                                ],
+                                createdAt: Date(),
+                                updatedAt: Date()
+                            )
+                            viewModel.conversations.insert(groupConv, at: 0)
+                            dismiss()
+                            onSelect(groupConv)
+                        }) {
+                            HStack(spacing: 14) {
+                                Circle()
+                                    .fill(Color(UIColor.systemIndigo))
+                                    .frame(width: 38, height: 38)
+                                    .overlay(
+                                        Image(systemName: "person.2.fill")
+                                            .font(.system(size: 17, weight: .semibold))
+                                            .foregroundStyle(Color.white)
+                                    )
+                                
+                                Text("Novo Grupo")
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(UIColor.label))
+                                
+                                Spacer()
+                            }
+                            .padding(.vertical, 2)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                
+                // Section 1: Agentes Virtuais (Apenas Avatar govi.svg e Nome)
                 Section("Agentes Virtuais (IA gov.br)") {
                     ForEach(filteredAgents) { agent in
                         Button(action: {
@@ -48,44 +171,24 @@ public struct NewConversationSheet: View {
                             dismiss()
                             onSelect(conv)
                         }) {
-                            HStack(spacing: 12) {
-                                AgentAvatarView(
-                                    title: agent.name,
-                                    avatarType: agent.avatarType,
-                                    colors: agent.colors,
-                                    size: 44
-                                )
+                            HStack(spacing: 14) {
+                                // Avatar oficial govi.svg
+                                GoviAvatarView(size: 38)
                                 
-                                VStack(alignment: .leading, spacing: 3) {
-                                    HStack(spacing: 4) {
-                                        Text(agent.name)
-                                            .font(.headline)
-                                            .foregroundStyle(Color(UIColor.label))
-                                        
-                                        Image(systemName: "sparkles")
-                                            .font(.caption2)
-                                            .foregroundStyle(Color(UIColor.systemGreen))
-                                    }
-                                    
-                                    Text(agent.description)
-                                        .font(.subheadline)
-                                        .foregroundStyle(Color(UIColor.secondaryLabel))
-                                        .lineLimit(2)
-                                }
+                                Text(agent.name)
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(UIColor.label))
                                 
                                 Spacer()
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(Color(UIColor.tertiaryLabel))
                             }
-                            .padding(.vertical, 4)
+                            .padding(.vertical, 2)
                         }
                         .buttonStyle(.plain)
                     }
                 }
                 
-                // Section 2: Verified Civic Contacts & Human Attendants
+                // Section 2: Contatos Conectados (Apenas Avatar e Nome)
                 Section("Contatos e Cidadãos Conectados") {
                     ForEach(filteredContacts) { contact in
                         Button(action: {
@@ -94,49 +197,29 @@ public struct NewConversationSheet: View {
                             dismiss()
                             onSelect(conv)
                         }) {
-                            HStack(spacing: 12) {
+                            HStack(spacing: 14) {
                                 AgentAvatarView(
                                     title: contact.name,
                                     initials: contact.initials,
                                     isOnline: contact.isOnline,
-                                    size: 44
+                                    size: 38
                                 )
                                 
-                                VStack(alignment: .leading, spacing: 3) {
-                                    HStack(spacing: 4) {
-                                        Text(contact.name)
-                                            .font(.headline)
-                                            .foregroundStyle(Color(UIColor.label))
-                                        
-                                        Image(systemName: "checkmark.seal.fill")
-                                            .font(.caption)
-                                            .foregroundStyle(contact.accountLevel == .ouro ? Color(UIColor.systemYellow) : Color(UIColor.systemGreen))
-                                    }
-                                    
-                                    Text("\(contact.role) • \(contact.department)")
-                                        .font(.subheadline)
-                                        .foregroundStyle(Color(UIColor.secondaryLabel))
-                                        .lineLimit(1)
-                                    
-                                    Text(contact.matrixId)
-                                        .font(.caption2)
-                                        .foregroundStyle(Color(UIColor.tertiaryLabel))
-                                }
+                                Text(contact.name)
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color(UIColor.label))
                                 
                                 Spacer()
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(Color(UIColor.tertiaryLabel))
                             }
-                            .padding(.vertical, 4)
+                            .padding(.vertical, 2)
                         }
                         .buttonStyle(.plain)
                     }
                 }
             }
             .listStyle(.insetGrouped)
-            .searchable(text: $searchText, prompt: "Buscar agente ou contato")
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Buscar agente ou contato")
             .navigationTitle("Nova Conversa")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -146,8 +229,16 @@ public struct NewConversationSheet: View {
                     }
                 }
             }
+            .sheet(isPresented: $isShowingCreateAgentSheet) {
+                AgentEditorSheet(agent: $newAgentDraft) { savedAgent in
+                    viewModel.agents.append(savedAgent)
+                    let conv = viewModel.createNewConversation(with: savedAgent)
+                    dismiss()
+                    onSelect(conv)
+                }
+            }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.large])
         .presentationDragIndicator(.visible)
     }
 }
