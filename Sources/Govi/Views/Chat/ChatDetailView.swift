@@ -33,6 +33,24 @@ public struct ChatDetailView: View {
             // Messages Scroll View
             ScrollViewReader { proxy in
                 ScrollView {
+                    // Matrix Sovereign E2EE Header Notice
+                    VStack(spacing: 4) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "lock.fill")
+                                .font(.caption2)
+                                .foregroundStyle(Color(UIColor.systemGreen))
+                            Text("Criptografia de Ponta a Ponta Matrix • Olm/Megolm")
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.secondaryLabel))
+                        }
+                        Text("Servidor soberano: \(viewModel.conversation.homeserverDomain) • Verificado com gov.br")
+                            .font(.system(size: 10))
+                            .foregroundStyle(Color(UIColor.tertiaryLabel))
+                    }
+                    .padding(.top, 8)
+                    .padding(.bottom, 6)
+                    
                     LazyVStack(spacing: 8) {
                         ForEach(viewModel.conversation.messages) { message in
                             MessageBubbleView(
@@ -131,6 +149,13 @@ public struct ChatDetailView: View {
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundStyle(Color(UIColor.label))
+                                
+                                if viewModel.conversation.isCrossSigningVerified {
+                                    Image(systemName: "checkmark.seal.fill")
+                                        .font(.system(size: 11))
+                                        .foregroundStyle(Color(UIColor.systemGreen))
+                                }
+                                
                                 Image(systemName: "chevron.right")
                                     .font(.caption2)
                                     .foregroundStyle(Color(UIColor.tertiaryLabel))

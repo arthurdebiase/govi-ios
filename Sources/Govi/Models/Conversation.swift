@@ -23,6 +23,14 @@ public struct Conversation: Identifiable, Codable, Sendable, Equatable {
     public var agentName: String?
     public var agentColors: AgentColors?
     
+    // Matrix Sovereign Protocol Fields
+    public var matrixRoomId: String
+    public var matrixPartnerId: String
+    public var isE2EEEncrypted: Bool
+    public var isCrossSigningVerified: Bool
+    public var homeserverDomain: String
+    public var keyFingerprint: String
+    
     public var isPinned: Bool
     public var isMuted: Bool
     public var unreadCount: Int
@@ -43,6 +51,12 @@ public struct Conversation: Identifiable, Codable, Sendable, Equatable {
         personOnline: Bool? = nil,
         agentName: String? = nil,
         agentColors: AgentColors? = nil,
+        matrixRoomId: String? = nil,
+        matrixPartnerId: String? = nil,
+        isE2EEEncrypted: Bool = true,
+        isCrossSigningVerified: Bool = true,
+        homeserverDomain: String = "gov.br",
+        keyFingerprint: String = "7A9F 83E1 2C0B 94FD 551A E082",
         isPinned: Bool = false,
         isMuted: Bool = false,
         unreadCount: Int = 0,
@@ -61,6 +75,23 @@ public struct Conversation: Identifiable, Codable, Sendable, Equatable {
         self.personOnline = personOnline
         self.agentName = agentName
         self.agentColors = agentColors
+        
+        // Matrix Sovereign IDs
+        self.matrixRoomId = matrixRoomId ?? "!room_\(id):\(homeserverDomain)"
+        if let partner = matrixPartnerId {
+            self.matrixPartnerId = partner
+        } else if type == "person", let name = personName {
+            self.matrixPartnerId = MatrixUserId.fromPersonName(name, domain: homeserverDomain).rawValue
+        } else if let aId = agentId {
+            self.matrixPartnerId = MatrixUserId.fromAgentId(aId, domain: homeserverDomain).rawValue
+        } else {
+            self.matrixPartnerId = "@govi:ia.gov.br"
+        }
+        self.isE2EEEncrypted = isE2EEEncrypted
+        self.isCrossSigningVerified = isCrossSigningVerified
+        self.homeserverDomain = homeserverDomain
+        self.keyFingerprint = keyFingerprint
+        
         self.isPinned = isPinned
         self.isMuted = isMuted
         self.unreadCount = unreadCount

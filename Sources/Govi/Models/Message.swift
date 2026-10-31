@@ -15,6 +15,10 @@ public struct Message: Identifiable, Codable, Sendable, Equatable {
     public let timestamp: String
     public let date: Date
     
+    // Matrix Event Fields
+    public var matrixEventId: String?
+    public var isEncrypted: Bool
+    
     public init(
         id: String = UUID().uuidString,
         role: MessageRole,
@@ -22,6 +26,8 @@ public struct Message: Identifiable, Codable, Sendable, Equatable {
         screens: [ScreenItem]? = nil,
         suggestedActions: [String]? = nil,
         actionCard: ActionCard? = nil,
+        matrixEventId: String? = nil,
+        isEncrypted: Bool = true,
         timestamp: String? = nil,
         date: Date = Date()
     ) {
@@ -31,6 +37,8 @@ public struct Message: Identifiable, Codable, Sendable, Equatable {
         self.screens = screens
         self.suggestedActions = suggestedActions
         self.actionCard = actionCard
+        self.matrixEventId = matrixEventId ?? "$event_\(id)"
+        self.isEncrypted = isEncrypted
         self.date = date
         
         if let timestamp = timestamp {

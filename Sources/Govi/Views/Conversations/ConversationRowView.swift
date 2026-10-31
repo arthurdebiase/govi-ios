@@ -33,10 +33,18 @@ public struct ConversationRowView: View {
             // Content
             VStack(alignment: .leading, spacing: 3) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text(conversation.displayName)
-                        .font(.headline)
-                        .foregroundStyle(Color(UIColor.label))
-                        .lineLimit(1)
+                    HStack(spacing: 4) {
+                        Text(conversation.displayName)
+                            .font(.headline)
+                            .foregroundStyle(Color(UIColor.label))
+                            .lineLimit(1)
+                        
+                        if conversation.isCrossSigningVerified {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.caption)
+                                .foregroundStyle(Color(UIColor.systemGreen))
+                        }
+                    }
                     
                     Spacer()
                     
@@ -54,6 +62,12 @@ public struct ConversationRowView: View {
                         .multilineTextAlignment(.leading)
                     
                     Spacer()
+                    
+                    if conversation.isE2EEEncrypted {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 9))
+                            .foregroundStyle(Color(UIColor.tertiaryLabel))
+                    }
                     
                     if conversation.isPinned {
                         Image(systemName: "pin.fill")
