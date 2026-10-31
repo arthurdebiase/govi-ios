@@ -1,27 +1,24 @@
 import SwiftUI
 
 public enum GoviTab: Int, CaseIterable, Identifiable {
-    case messages = 0
-    case services = 1
-    case screens = 2
-    case profile = 3
+    case chats = 0
+    case connect = 1
+    case profile = 2
     
     public var id: Int { rawValue }
     
     public var title: String {
         switch self {
-        case .messages: return "Mensagens"
-        case .services: return "Serviços"
-        case .screens: return "Telas"
-        case .profile: return "Conta"
+        case .chats: return "Chats"
+        case .connect: return "Conectar"
+        case .profile: return "Perfil"
         }
     }
     
     public var iconName: String {
         switch self {
-        case .messages: return "bubble.left.and.bubble.right.fill"
-        case .services: return "square.grid.2x2.fill"
-        case .screens: return "photo.stack.fill"
+        case .chats: return "bubble.left.and.bubble.right.fill"
+        case .connect: return "link"
         case .profile: return "person.crop.circle.fill"
         }
     }

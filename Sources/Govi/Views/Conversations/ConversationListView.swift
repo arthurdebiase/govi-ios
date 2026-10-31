@@ -5,11 +5,12 @@ public struct ConversationListView: View {
     @Bindable public var profileViewModel: ProfileViewModel
     @Bindable public var marketplaceViewModel: MarketplaceViewModel
     
-    @State private var isShowingProfileSheet: Bool = false
-    @State private var isShowingMarketplaceSheet: Bool = false
     @State private var isShowingInviteSheet: Bool = false
+    @State private var isShowingNewConversationSheet: Bool = false
     @State private var selectedRequestForConsent: ConversationRequest?
     @State private var navigationPath = NavigationPath()
+    @State private var isEditMode: EditMode = .inactive
+    @State private var selectedConversationIds = Set<String>()
     
     public init(
         viewModel: ConversationsViewModel,
@@ -23,7 +24,7 @@ public struct ConversationListView: View {
     
     public var body: some View {
         NavigationStack(path: $navigationPath) {
-            List {
+            List(selection: $selectedConversationIds) {
                 // Pending Conversation Requests (Handshake & Consent Flow)
                 if !viewModel.pendingRequests.isEmpty && viewModel.searchText.isEmpty {
                     Section("Solicitações de Conversa") {
@@ -169,8 +170,9 @@ public struct ConversationListView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .searchable(text: $viewModel.searchText, prompt: "Buscar em mensagens e serviços gov.br")
-            .navigationTitle("Mensagens")
+            .environment(\.editMode, $isEditMode)
+            .searchable(text: $viewModel.searchText, prompt: "Buscar em chats e serviços gov.br")
+            .navigationTitle("Chats")
             .navigationDestination(for: String.self) { convId in
                 if let convIndex = viewModel.conversations.firstIndex(where: { $0.id == convId }) {
                     let conv = viewModel.conversations[convIndex]
@@ -184,12 +186,39 @@ public struct ConversationListView: View {
                 }
             }
             .toolbar {
-                // Leading: Editar
+                // Leading: "..." Menu or "OK" when editing
                 ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
+                    if isEditMode == .active {
+                        Button("OK") {
+                            withAnimation {
+                                isEditMode = .inactive
+                            }
+                        }
+                        .fontWeight(.semibold)
+                    } else {
+                        Menu {
+                            Button {
+                                withAnimation {
+                                    isEditMode = .active
+                                }
+                            } label: {
+                                Label("Selecionar conversas", systemImage: "checkmark.circle")
+                            }
+                            
+                            Button {
+                                viewModel.markAllAsRead()
+                            } label: {
+                                Label("Marcar tudo como Lido", systemImage: "envelope.open")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .font(.body)
+                        }
+                        .accessibilityLabel("Opções de conversa")
+                    }
                 }
                 
-                // Trailing: QR Code Convite Efêmero & Nova Conversa
+                // Trailing: QR Code Convite Efêmero & Botão Primário Criar "+"
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     // QR Code / Convite Efêmero 60s
                     Button {
@@ -200,31 +229,30 @@ public struct ConversationListView: View {
                     }
                     .accessibilityLabel("Meu Convite Seguro")
                     
-                    // New Message Menu
-                    Menu {
-                        Section("Iniciar com Agente Virtual (IA)") {
-                            ForEach(viewModel.agents) { agent in
-                                Button {
-                                    let newConv = viewModel.createNewConversation(with: agent)
-                                    navigationPath.append(newConv.id)
-                                } label: {
-                                    Label(agent.name, systemImage: agent.avatarType.systemImageName)
-                                }
-                            }
-                        }
+                    // Botão Primário Criar "+" (Fundo azul, ícone branco)
+                    Button {
+                        HapticManager.shared.impact(.light)
+                        isShowingNewConversationSheet = true
                     } label: {
-                        Image(systemName: "square.and.pencil")
-                            .font(.body)
+                        ZStack {
+                            Circle()
+                                .fill(Color(UIColor.systemBlue))
+                                .frame(width: 32, height: 32)
+                            
+                            Image(systemName: "plus")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundStyle(Color.white)
+                        }
                     }
+                    .buttonStyle(.plain)
                     .accessibilityLabel("Nova Conversa")
                 }
             }
             // Sheets
-            .sheet(isPresented: $isShowingProfileSheet) {
-                ProfileSheet(viewModel: profileViewModel)
-            }
-            .sheet(isPresented: $isShowingMarketplaceSheet) {
-                MarketplaceSheet(viewModel: marketplaceViewModel)
+            .sheet(isPresented: $isShowingNewConversationSheet) {
+                NewConversationSheet(viewModel: viewModel) { newConv in
+                    navigationPath.append(newConv.id)
+                }
             }
             .sheet(isPresented: $isShowingInviteSheet) {
                 InviteSheet(userProfile: profileViewModel.profile)

@@ -8,14 +8,6 @@ public struct GlobalSearchView: View {
     @State private var recentSearches: [String] = [
         "Guia DAS-MEI", "Certidão CND", "IPVA 2026", "Extrato CNIS", "CRLV Digital"
     ]
-    @State private var selectedScreen: ScreenItem?
-    
-    private let sampleScreens: [ScreenItem] = [
-        ScreenItem(id: 1, name: "Emissão de DAS - PGMEI", flow: "MEI e Tributos", imageUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&auto=format&fit=crop&q=80", altText: "Tela de emissão do DAS no portal do Simples Nacional"),
-        ScreenItem(id: 2, name: "Certidão Negativa de Débitos", flow: "Receita Federal", imageUrl: "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=600&auto=format&fit=crop&q=80", altText: "Emissão e validação de CND Federal"),
-        ScreenItem(id: 3, name: "Painel de Veículos - CDT", flow: "Carteira Digital de Trânsito", imageUrl: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&auto=format&fit=crop&q=80", altText: "Consulta de CRLV-e e débitos do Detran"),
-        ScreenItem(id: 4, name: "Extrato de Contribuições (CNIS)", flow: "Meu INSS", imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&auto=format&fit=crop&q=80", altText: "Vínculos de trabalho e tempo de aposentadoria")
-    ]
     
     public init(marketplaceViewModel: MarketplaceViewModel) {
         self.marketplaceViewModel = marketplaceViewModel
@@ -85,71 +77,31 @@ public struct GlobalSearchView: View {
                         $0.category.localizedCaseInsensitiveContains(searchText)
                     }
                     
-                    let matchedScreens = sampleScreens.filter {
-                        $0.name.localizedCaseInsensitiveContains(searchText) ||
-                        ($0.flow?.localizedCaseInsensitiveContains(searchText) ?? false)
-                    }
-                    
-                    if matchedServices.isEmpty && matchedScreens.isEmpty {
+                    if matchedServices.isEmpty {
                         ContentUnavailableView.search(text: searchText)
                             .listRowBackground(Color.clear)
                     } else {
-                        if !matchedServices.isEmpty {
-                            Section("Serviços Públicos (\(matchedServices.count))") {
-                                ForEach(matchedServices) { service in
-                                    HStack(spacing: 12) {
-                                        Image(systemName: service.systemImage)
-                                            .font(.title3)
-                                            .foregroundStyle(Color(UIColor.systemBlue))
-                                            .frame(width: 32)
-                                        
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(service.name)
-                                                .font(.headline)
-                                            Text(service.category)
-                                                .font(.caption)
-                                                .foregroundStyle(Color(UIColor.secondaryLabel))
-                                        }
-                                        Spacer()
-                                        if service.isConnected {
-                                            Text("Conectado")
-                                                .font(.caption2)
-                                                .fontWeight(.semibold)
-                                                .foregroundStyle(Color(UIColor.systemGreen))
-                                        }
+                        Section("Serviços Públicos (\(matchedServices.count))") {
+                            ForEach(matchedServices) { service in
+                                HStack(spacing: 12) {
+                                    Image(systemName: service.systemImage)
+                                        .font(.title3)
+                                        .foregroundStyle(Color(UIColor.systemBlue))
+                                        .frame(width: 32)
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(service.name)
+                                            .font(.headline)
+                                        Text(service.category)
+                                            .font(.caption)
+                                            .foregroundStyle(Color(UIColor.secondaryLabel))
                                     }
-                                }
-                            }
-                        }
-                        
-                        if !matchedScreens.isEmpty {
-                            Section("Telas Oficiais Mapeadas (\(matchedScreens.count))") {
-                                ForEach(matchedScreens) { screen in
-                                    Button(action: {
-                                        HapticManager.shared.impact(.light)
-                                        selectedScreen = screen
-                                    }) {
-                                        HStack(spacing: 12) {
-                                            Image(systemName: "photo.stack.fill")
-                                                .font(.title3)
-                                                .foregroundStyle(Color(UIColor.systemOrange))
-                                                .frame(width: 32)
-                                            
-                                            VStack(alignment: .leading, spacing: 2) {
-                                                Text(screen.name)
-                                                    .font(.headline)
-                                                    .foregroundStyle(Color(UIColor.label))
-                                                if let flow = screen.flow {
-                                                    Text(flow)
-                                                        .font(.caption)
-                                                        .foregroundStyle(Color(UIColor.secondaryLabel))
-                                                }
-                                            }
-                                            Spacer()
-                                            Image(systemName: "arrow.up.right")
-                                                .font(.caption2)
-                                                .foregroundStyle(Color(UIColor.tertiaryLabel))
-                                        }
+                                    Spacer()
+                                    if service.isConnected {
+                                        Text("Conectado")
+                                            .font(.caption2)
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(Color(UIColor.systemGreen))
                                     }
                                 }
                             }
@@ -158,7 +110,7 @@ public struct GlobalSearchView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Buscar serviços, telas e fluxos gov.br")
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Buscar serviços e canais gov.br")
             .navigationTitle("Buscar")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -168,9 +120,6 @@ public struct GlobalSearchView: View {
                     }
                     .fontWeight(.semibold)
                 }
-            }
-            .sheet(item: $selectedScreen) { screen in
-                ScreenGallerySheet(screens: [screen])
             }
         }
     }

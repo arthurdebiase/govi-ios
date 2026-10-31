@@ -5,7 +5,7 @@ public struct MainTabView: View {
     @Bindable public var profileViewModel: ProfileViewModel
     @Bindable public var marketplaceViewModel: MarketplaceViewModel
     
-    @State private var selectedTab: GoviTab = .messages
+    @State private var selectedTab: GoviTab = .chats
     @State private var isShowingSearchSheet: Bool = false
     
     public init(
@@ -23,16 +23,14 @@ public struct MainTabView: View {
             // Tab Content
             Group {
                 switch selectedTab {
-                case .messages:
+                case .chats:
                     ConversationListView(
                         viewModel: conversationsViewModel,
                         profileViewModel: profileViewModel,
                         marketplaceViewModel: marketplaceViewModel
                     )
-                case .services:
+                case .connect:
                     MarketplaceTabView(viewModel: marketplaceViewModel)
-                case .screens:
-                    ScreensCatalogView()
                 case .profile:
                     ProfileTabView(viewModel: profileViewModel)
                 }

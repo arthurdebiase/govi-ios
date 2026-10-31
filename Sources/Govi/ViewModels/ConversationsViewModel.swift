@@ -6,6 +6,7 @@ import SwiftUI
 public final class ConversationsViewModel {
     public var conversations: [Conversation] = []
     public var agents: [GovBrAgent] = GovBrAgent.defaultAgents
+    public var savedContacts: [CivicContact] = CivicContact.defaultContacts
     public var pendingRequests: [ConversationRequest] = []
     public var selectedFilter: ConversationPartnerType = .all
     public var searchText: String = ""
@@ -117,6 +118,48 @@ public final class ConversationsViewModel {
     public func declineConversationRequest(_ request: ConversationRequest) {
         pendingRequests.removeAll { $0.id == request.id }
         HapticManager.shared.notification(.warning)
+    }
+    
+    public func markAllAsRead() {
+        for index in conversations.indices {
+            conversations[index].unreadCount = 0
+        }
+        HapticManager.shared.notification(.success)
+    }
+    
+    public func startConversationWithContact(_ contact: CivicContact) -> Conversation {
+        // If conversation already exists with this contact's matrixId, return it
+        if let existingIndex = conversations.firstIndex(where: { $0.matrixPartnerId == contact.matrixId }) {
+            return conversations[existingIndex]
+        }
+        
+        let now = Date()
+        let newConv = Conversation(
+            id: "conv-\(UUID().uuidString.prefix(8))",
+            type: "person",
+            title: contact.name,
+            personName: contact.name,
+            personRole: "\(contact.role) • \(contact.department)",
+            personInitials: contact.initials,
+            personOnline: contact.isOnline,
+            matrixRoomId: "!direct_\(UUID().uuidString.prefix(6)):gov.br",
+            matrixPartnerId: contact.matrixId,
+            isE2EEEncrypted: true,
+            isCrossSigningVerified: true,
+            homeserverDomain: "gov.br",
+            messages: [
+                Message(
+                    role: .assistant,
+                    content: "Olá! Conversa iniciada com \(contact.name) com criptografia ponta a ponta e verificação oficial gov.br.",
+                    timestamp: "Agora"
+                )
+            ],
+            createdAt: now,
+            updatedAt: now
+        )
+        conversations.insert(newConv, at: 0)
+        HapticManager.shared.impact(.light)
+        return newConv
     }
     
     public func createNewConversation(with agent: GovBrAgent) -> Conversation {
