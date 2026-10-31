@@ -13,6 +13,7 @@
 		0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8854529D6D23509AFFB9E /* ScreenItem.swift */; };
 		17D976A360FFA2EC042B9B86 /* MarketplaceTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898EBA5CC9D25E1EAEC5073 /* MarketplaceTabView.swift */; };
 		1A1A8BD897FAB312E959447D /* MatrixService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BB3CBCB2EBCCF57BD50EB1 /* MatrixService.swift */; };
+		1FC9D79F630FB6A335023D82 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9F0BCE73C980EC850094A4 /* Color+Hex.swift */; };
 		24F628FDB20BCBA1CD5777D2 /* InviteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */; };
 		2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */; };
 		2ECD727B818AE558D7FA15C6 /* CivicContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D54CFE57ADD9B30553CE5A /* CivicContact.swift */; };
@@ -48,7 +49,6 @@
 		C629657779954AA33AD4743F /* MarketplaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */; };
 		D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA732A1C078A078821A8BF /* GoviAPIService.swift */; };
 		D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC55B375EB914985B02764B2 /* ConversationRowView.swift */; };
-		E90881D74F912CA174A0AE1B /* FloatingTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78E5666F40B514B8B13F94D /* FloatingTabBarView.swift */; };
 		F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3C3AB19C116296A99196E /* ScreenGallerySheet.swift */; };
 /* End PBXBuildFile section */
 
@@ -97,10 +97,10 @@
 		A2FF890F688512E52F05B348 /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
 		B898EBA5CC9D25E1EAEC5073 /* MarketplaceTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceTabView.swift; sourceTree = "<group>"; };
 		C8F69DDFBF9CC12E46F86C4D /* MarketplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceViewModel.swift; sourceTree = "<group>"; };
-		D78E5666F40B514B8B13F94D /* FloatingTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTabBarView.swift; sourceTree = "<group>"; };
 		DB27F4000619326F795528FD /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		DC55B375EB914985B02764B2 /* ConversationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRowView.swift; sourceTree = "<group>"; };
 		E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBarView.swift; sourceTree = "<group>"; };
+		EB9F0BCE73C980EC850094A4 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		ECE13C55F60A9CEBDC572B2F /* NewConversationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationSheet.swift; sourceTree = "<group>"; };
 		EF2AF14B73A92075BE2FEC76 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		F5733BE257483354B99DA4BB /* GovService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovService.swift; sourceTree = "<group>"; };
@@ -163,6 +163,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		3500E95F252E2EB284025A12 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EB9F0BCE73C980EC850094A4 /* Color+Hex.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3991A9861456EB0D867FBD6A /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				3991A9861456EB0D867FBD6A /* App */,
+				3500E95F252E2EB284025A12 /* Extensions */,
 				119D63F52D0804DA4254706E /* Models */,
 				2DE050F971CB1F883E9E800E /* Resources */,
 				9FD35143EF587720BCC376A8 /* Services */,
@@ -268,7 +277,6 @@
 		B6D7BB1CE3055CE148887210 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				D78E5666F40B514B8B13F94D /* FloatingTabBarView.swift */,
 				059FF5845F89399711050C2B /* MainTabView.swift */,
 				B898EBA5CC9D25E1EAEC5073 /* MarketplaceTabView.swift */,
 				A2FF890F688512E52F05B348 /* ProfileTabView.swift */,
@@ -346,6 +354,14 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0A27706775363EA08D683FC5 = {
+						DevelopmentTeam = 8D4ZAU8774;
+						ProvisioningStyle = Automatic;
+					};
+					35D73CD79E6F25A9F67D9058 = {
+						DevelopmentTeam = 8D4ZAU8774;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 466FA799F2F92891C4D7696A /* Build configuration list for PBXProject "Govi" */;
@@ -401,13 +417,13 @@
 				2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */,
 				7A29807C87DB648794C3C9C5 /* ChatViewModel.swift in Sources */,
 				2ECD727B818AE558D7FA15C6 /* CivicContact.swift in Sources */,
+				1FC9D79F630FB6A335023D82 /* Color+Hex.swift in Sources */,
 				BE9314289B8D423D9418E015 /* ContactDetailsSheet.swift in Sources */,
 				880833780D008E452F7312FE /* Conversation.swift in Sources */,
 				6F5FC8627DC9327EC695B528 /* ConversationConsentSheet.swift in Sources */,
 				0FD2205A3D17AEE8EAF1107F /* ConversationListView.swift in Sources */,
 				D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */,
 				B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */,
-				E90881D74F912CA174A0AE1B /* FloatingTabBarView.swift in Sources */,
 				66A4D53C4BAC0D130A017F0F /* GlobalSearchView.swift in Sources */,
 				742668BE625B1831884EAAFD /* GovService.swift in Sources */,
 				D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */,
@@ -521,8 +537,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8D4ZAU8774;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -602,8 +620,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8D4ZAU8774;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

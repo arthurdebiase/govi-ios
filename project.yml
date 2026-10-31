@@ -9,6 +9,8 @@ settings:
     SWIFT_VERSION: "6.0"
     IPHONEOS_DEPLOYMENT_TARGET: "18.0"
     TARGETED_DEVICE_FAMILY: "1,2"
+    DEVELOPMENT_TEAM: 8D4ZAU8774
+    CODE_SIGN_STYLE: Automatic
 targets:
   Govi:
     type: application

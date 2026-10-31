@@ -160,18 +160,10 @@ public struct ConversationListView: View {
                         }
                     }
                 }
-                
-                // Bottom Clearance for Floating Tab Bar
-                Section {
-                    Color.clear
-                        .frame(height: 70)
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                }
             }
             .listStyle(.insetGrouped)
             .environment(\.editMode, $isEditMode)
-            .searchable(text: $viewModel.searchText, prompt: "Buscar em chats e serviços gov.br")
+            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Buscar em conversas e serviços gov.br")
             .navigationTitle("Chats")
             .navigationDestination(for: String.self) { convId in
                 if let convIndex = viewModel.conversations.firstIndex(where: { $0.id == convId }) {

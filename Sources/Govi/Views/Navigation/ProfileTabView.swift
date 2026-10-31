@@ -132,14 +132,8 @@ public struct ProfileTabView: View {
                         }
                     }
                 }
-                
-                // Bottom spacing for floating tab bar
-                Section {
-                    Color.clear.frame(height: 70)
-                }
-                .listRowBackground(Color.clear)
             }
-            .navigationTitle("Minha Conta")
+            .navigationTitle("Perfil")
         }
     }
     

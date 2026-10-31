@@ -62,16 +62,10 @@ public struct MarketplaceTabView: View {
                         .padding(.vertical, 4)
                     }
                 }
-                
-                // Bottom spacing for floating tab bar
-                Section {
-                    Color.clear.frame(height: 70)
-                }
-                .listRowBackground(Color.clear)
             }
             .listStyle(.insetGrouped)
             .searchable(text: $viewModel.searchText, prompt: "Filtrar serviços públicos")
-            .navigationTitle("Serviços gov.br")
+            .navigationTitle("Conectar")
         }
     }
 }

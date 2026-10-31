@@ -1,36 +1,39 @@
 import SwiftUI
 
 public struct GoviAvatarView: View {
+    public let colors: AgentColors
     public let size: CGFloat
     
-    public init(size: CGFloat = 40) {
+    public init(colors: AgentColors = .default, size: CGFloat = 40) {
+        self.colors = colors
         self.size = size
     }
     
     public var body: some View {
-        if let uiImage = UIImage(named: "GoviAvatar") {
+        if colors == .default, let uiImage = UIImage(named: "GoviAvatar") {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
                 .clipShape(Circle())
         } else {
-            // Resolution-independent pure SwiftUI vector rendering of govi.svg
+            // Vector rendering of govi.svg with custom colors
             ZStack {
+                // Background circle
                 Circle()
-                    .fill(Color(hex: "#009440"))
+                    .fill(Color(hex: colors.background))
                     .frame(width: size, height: size)
                 
                 GeometryReader { geo in
                     let scale = geo.size.width / 640.0
                     ZStack {
-                        // Blue central circle
+                        // Central / Top circle
                         Circle()
-                            .fill(Color(hex: "#302681"))
+                            .fill(Color(hex: colors.circle))
                             .frame(width: 320 * scale, height: 320 * scale)
                             .position(x: 320 * scale, y: 240 * scale)
                             .overlay(
-                                // White diagonal stripe
+                                // Curved stripe with vector clipping
                                 Path { path in
                                     path.move(to: CGPoint(x: 510.777 * scale, y: 260.541 * scale))
                                     path.addCurve(
@@ -46,13 +49,13 @@ public struct GoviAvatarView: View {
                                     )
                                     path.closeSubpath()
                                 }
-                                .fill(Color.white)
+                                .fill(Color(hex: colors.stripe))
                             )
                             .clipShape(Circle())
                         
-                        // Yellow lower circle
+                        // Lower semi-circle / base
                         Circle()
-                            .fill(Color(hex: "#FFCB00"))
+                            .fill(Color(hex: colors.semiCircle))
                             .frame(width: 640 * scale, height: 640 * scale)
                             .position(x: 320 * scale, y: 760 * scale)
                     }
@@ -62,31 +65,5 @@ public struct GoviAvatarView: View {
             }
             .frame(width: size, height: size)
         }
-    }
-}
-
-fileprivate extension Color {
-    init(hex: String) {
-        let cleanHex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: cleanHex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch cleanHex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
-        )
     }
 }
