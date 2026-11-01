@@ -18,6 +18,7 @@
 		2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */; };
 		2ECD727B818AE558D7FA15C6 /* CivicContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D54CFE57ADD9B30553CE5A /* CivicContact.swift */; };
 		31B52AA5B899BE86815F03F1 /* GovAppOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC23A79549F097809BBF7BE /* GovAppOption.swift */; };
+		3EFB8FD3D5F0933F73AFA733 /* GovernmentAppsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDCF2D083D09A002251210E /* GovernmentAppsStore.swift */; };
 		402308182F459FD573A8EEDC /* GoviAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89F9BDF55EF86DE777DC13 /* GoviAvatarView.swift */; };
 		41BA198F42CE46780EA1B5AB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5907381D63022200E9527F89 /* UserProfile.swift */; };
 		48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */; };
@@ -45,11 +46,14 @@
 		B198DA8A1AEA9A6FE77EF262 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059FF5845F89399711050C2B /* MainTabView.swift */; };
 		B3B81398784A773664566319 /* MarketplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F69DDFBF9CC12E46F86C4D /* MarketplaceViewModel.swift */; };
 		B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83063CA0A47F1CE2FE3D5A4A /* ConversationsViewModel.swift */; };
+		B58D979BB42F057C5463B1F2 /* GovernmentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CB408B6DA4487264C55121 /* GovernmentApp.swift */; };
+		B6FECBF8523862303CC1F1D0 /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E31BB78A711AC5B88E317E /* AppIconView.swift */; };
 		B95EDAD7D406FBAA05E82840 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2AF14B73A92075BE2FEC76 /* ChatDetailView.swift */; };
 		BA717B798147893C50777D7C /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB27F4000619326F795528FD /* QRCodeGenerator.swift */; };
 		BE9314289B8D423D9418E015 /* ContactDetailsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825743F8821D2250073F7DFA /* ContactDetailsSheet.swift */; };
 		C597E8F06253ED6BCE4F0E46 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5E2AE0742DCEC7CDBC08D /* Message.swift */; };
 		C629657779954AA33AD4743F /* MarketplaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */; };
+		CD1BB344015690C08C0B3E1C /* government_apps_catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 1293EF3375126D6020C3CB8D /* government_apps_catalog.json */; };
 		D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA732A1C078A078821A8BF /* GoviAPIService.swift */; };
 		D82D671518FE60300C7A47BC /* ConversationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC55B375EB914985B02764B2 /* ConversationRowView.swift */; };
 		F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3C3AB19C116296A99196E /* ScreenGallerySheet.swift */; };
@@ -72,6 +76,7 @@
 		0A27490AB79E97AF325B6A2F /* GoviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviApp.swift; sourceTree = "<group>"; };
 		0DDA732A1C078A078821A8BF /* GoviAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviAPIService.swift; sourceTree = "<group>"; };
 		10D3C3AB19C116296A99196E /* ScreenGallerySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGallerySheet.swift; sourceTree = "<group>"; };
+		1293EF3375126D6020C3CB8D /* government_apps_catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = government_apps_catalog.json; sourceTree = "<group>"; };
 		172493C9E1245C9DCADCD556 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
 		184E5C6742A8CD52EF67CED4 /* Agent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
 		1B08CC2FD8C0A1D014FF6F7A /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
@@ -92,6 +97,7 @@
 		6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceSheet.swift; sourceTree = "<group>"; };
 		640AF213D0EE5E782A92A291 /* GoviTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviTests.swift; sourceTree = "<group>"; };
 		65A8854529D6D23509AFFB9E /* ScreenItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenItem.swift; sourceTree = "<group>"; };
+		6BDCF2D083D09A002251210E /* GovernmentAppsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentAppsStore.swift; sourceTree = "<group>"; };
 		725A34F5D4D4369C84D5953A /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		74184AF83E1A9C4C836897B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7956982341030A09D469FE2C /* IntegrationsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationsStore.swift; sourceTree = "<group>"; };
@@ -100,6 +106,7 @@
 		83063CA0A47F1CE2FE3D5A4A /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
 		83340B819ECDCE5672AC8FF7 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		844395C808CCFFB5AD0E1830 /* ActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCardView.swift; sourceTree = "<group>"; };
+		89CB408B6DA4487264C55121 /* GovernmentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentApp.swift; sourceTree = "<group>"; };
 		8D3EE1214C6856C27784DFBF /* ConversationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
 		94CEB47DCEAD923E82F024D9 /* ActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCard.swift; sourceTree = "<group>"; };
 		A2FF890F688512E52F05B348 /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
@@ -107,6 +114,7 @@
 		C8F69DDFBF9CC12E46F86C4D /* MarketplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceViewModel.swift; sourceTree = "<group>"; };
 		DB27F4000619326F795528FD /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		DC55B375EB914985B02764B2 /* ConversationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRowView.swift; sourceTree = "<group>"; };
+		E4E31BB78A711AC5B88E317E /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
 		E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBarView.swift; sourceTree = "<group>"; };
 		EB9F0BCE73C980EC850094A4 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		ECE13C55F60A9CEBDC572B2F /* NewConversationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationSheet.swift; sourceTree = "<group>"; };
@@ -155,6 +163,7 @@
 				32F160C35669E733680F5893 /* Conversation.swift */,
 				492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */,
 				5BC23A79549F097809BBF7BE /* GovAppOption.swift */,
+				89CB408B6DA4487264C55121 /* GovernmentApp.swift */,
 				F5733BE257483354B99DA4BB /* GovService.swift */,
 				45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */,
 				5026C31FA562B6078C3780EF /* MatrixModels.swift */,
@@ -169,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				74184AF83E1A9C4C836897B7 /* Assets.xcassets */,
+				1293EF3375126D6020C3CB8D /* government_apps_catalog.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -201,6 +211,7 @@
 		54C74DCDCAE9152617C1C931 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E4E31BB78A711AC5B88E317E /* AppIconView.swift */,
 				1C89F9BDF55EF86DE777DC13 /* GoviAvatarView.swift */,
 			);
 			path = Common;
@@ -268,6 +279,7 @@
 		9FD35143EF587720BCC376A8 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6BDCF2D083D09A002251210E /* GovernmentAppsStore.swift */,
 				0DDA732A1C078A078821A8BF /* GoviAPIService.swift */,
 				42FBA46724849C2F19051E42 /* HapticManager.swift */,
 				7956982341030A09D469FE2C /* IntegrationsStore.swift */,
@@ -402,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C0FEFE7C2F5B93C782DCDE4 /* Assets.xcassets in Resources */,
+				CD1BB344015690C08C0B3E1C /* government_apps_catalog.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +438,7 @@
 				8C05C6CB596FB7D51BA8BA2A /* Agent.swift in Sources */,
 				48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */,
 				78A18599663B76267A3BDC04 /* AgentEditorSheet.swift in Sources */,
+				B6FECBF8523862303CC1F1D0 /* AppIconView.swift in Sources */,
 				B95EDAD7D406FBAA05E82840 /* ChatDetailView.swift in Sources */,
 				2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */,
 				7A29807C87DB648794C3C9C5 /* ChatViewModel.swift in Sources */,
@@ -440,6 +454,8 @@
 				66A4D53C4BAC0D130A017F0F /* GlobalSearchView.swift in Sources */,
 				31B52AA5B899BE86815F03F1 /* GovAppOption.swift in Sources */,
 				742668BE625B1831884EAAFD /* GovService.swift in Sources */,
+				B58D979BB42F057C5463B1F2 /* GovernmentApp.swift in Sources */,
+				3EFB8FD3D5F0933F73AFA733 /* GovernmentAppsStore.swift in Sources */,
 				D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */,
 				5E9152C919355421E95952A8 /* GoviApp.swift in Sources */,
 				402308182F459FD573A8EEDC /* GoviAvatarView.swift in Sources */,

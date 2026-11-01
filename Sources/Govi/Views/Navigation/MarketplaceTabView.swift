@@ -11,27 +11,45 @@ public struct MarketplaceTabView: View {
         NavigationStack {
             List {
                 Section {
-                    Text("Conecte os aplicativos públicos do gov.br para que os agentes do Govi possam orientar suas etapas, consultar telas oficiais e emitir guias automaticamente.")
+                    Text("Conecte os 110+ aplicativos públicos oficiais do Brasil para que os agentes do Govi possam orientar suas etapas, consultar telas oficiais e emitir guias automaticamente.")
                         .font(.subheadline)
                         .foregroundStyle(Color(UIColor.secondaryLabel))
+                    
+                    Picker("Esfera", selection: $viewModel.selectedSphere) {
+                        ForEach(viewModel.spheres, id: \.self) { sphere in
+                            Text(sphere).tag(sphere)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.vertical, 4)
                 }
                 
-                Section("Serviços Disponíveis") {
+                Section {
                     ForEach(viewModel.filteredServices) { service in
                         HStack(alignment: .top, spacing: 14) {
-                            Circle()
-                                .fill(Color(UIColor.secondarySystemFill))
-                                .frame(width: 44, height: 44)
-                                .overlay(
-                                    Image(systemName: service.systemImage)
-                                        .font(.system(size: 20))
-                                        .foregroundStyle(Color(UIColor.systemBlue))
-                                )
+                            AppIconView(
+                                urlString: service.thumbnailUrl,
+                                systemImage: service.systemImage,
+                                fallbackBgColor: "#0284C7",
+                                appName: service.name,
+                                size: 48
+                            )
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(service.name)
-                                    .font(.headline)
-                                    .foregroundStyle(Color(UIColor.label))
+                                HStack(spacing: 6) {
+                                    Text(service.name)
+                                        .font(.headline)
+                                        .foregroundStyle(Color(UIColor.label))
+                                        .lineLimit(1)
+                                    
+                                    Text(service.sphere)
+                                        .font(.system(size: 9, weight: .bold))
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(sphereBadgeColor(for: service.sphere).opacity(0.14))
+                                        .foregroundStyle(sphereBadgeColor(for: service.sphere))
+                                        .clipShape(Capsule())
+                                }
                                 
                                 Text(service.category)
                                     .font(.caption2)
@@ -47,6 +65,10 @@ public struct MarketplaceTabView: View {
                                     Label("\(service.screenCount) telas mapeadas", systemImage: "photo.stack")
                                         .font(.caption2)
                                         .foregroundStyle(Color(UIColor.tertiaryLabel))
+                                    
+                                    Label(service.downloads, systemImage: "arrow.down.circle")
+                                        .font(.caption2)
+                                        .foregroundStyle(Color(UIColor.tertiaryLabel))
                                 }
                                 .padding(.top, 2)
                             }
@@ -60,6 +82,14 @@ public struct MarketplaceTabView: View {
                             .labelsHidden()
                         }
                         .padding(.vertical, 4)
+                    }
+                } header: {
+                    HStack {
+                        Text("Serviços Disponíveis")
+                        Spacer()
+                        Text("\(viewModel.filteredServices.count) apps")
+                            .font(.caption2)
+                            .foregroundStyle(Color(UIColor.secondaryLabel))
                     }
                 }
                 
@@ -145,8 +175,17 @@ public struct MarketplaceTabView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .searchable(text: $viewModel.searchText, prompt: "Filtrar serviços públicos")
+            .searchable(text: $viewModel.searchText, prompt: "Buscar em 110+ apps e serviços...")
             .navigationTitle("Conectar")
+        }
+    }
+    
+    private func sphereBadgeColor(for sphere: String) -> Color {
+        switch sphere {
+        case "Federal": return Color(UIColor.systemBlue)
+        case "Estadual": return Color(UIColor.systemGreen)
+        case "Municipal": return Color(UIColor.systemOrange)
+        default: return Color(UIColor.systemGray)
         }
     }
 }

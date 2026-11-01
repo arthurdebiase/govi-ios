@@ -21,6 +21,8 @@ public struct AgentEditorSheet: View {
     
     // Step 1: Apps selection
     @State private var selectedAppIds: Set<String>
+    @State private var searchText: String = ""
+    @State private var selectedSphere: String = "Todas"
     
     // Step 2: Identity & Avatar
     @State private var name: String
@@ -37,7 +39,7 @@ public struct AgentEditorSheet: View {
         self.onSave = onSave
         let isNew = agent.wrappedValue.name.isEmpty || agent.wrappedValue.name == "Meu Agente IA"
         self._currentStep = State(initialValue: isNew ? 1 : 2)
-        self._selectedAppIds = State(initialValue: Set(["inss", "receita", "mei"]))
+        self._selectedAppIds = State(initialValue: Set(["101", "102", "103"]))
         self._name = State(initialValue: agent.wrappedValue.name)
         self._descriptionText = State(initialValue: agent.wrappedValue.description)
         self._colors = State(initialValue: agent.wrappedValue.colors)
@@ -84,7 +86,19 @@ public struct AgentEditorSheet: View {
     }
     
     private var selectedApps: [GovAppOption] {
-        GovAppOption.defaultApps.filter { selectedAppIds.contains($0.id) }
+        GovernmentAppsStore.shared.appOptions.filter { selectedAppIds.contains($0.id) }
+    }
+    
+    private var filteredApps: [GovAppOption] {
+        let all = GovernmentAppsStore.shared.appOptions
+        return all.filter { app in
+            let matchesSphere = selectedSphere == "Todas" || app.sphere == selectedSphere
+            let matchesSearch = searchText.isEmpty ||
+                app.name.localizedCaseInsensitiveContains(searchText) ||
+                app.description.localizedCaseInsensitiveContains(searchText) ||
+                app.category.localizedCaseInsensitiveContains(searchText)
+            return matchesSphere && matchesSearch
+        }
     }
     
     private func generateSmartPromptAndName() {
@@ -146,48 +160,72 @@ public struct AgentEditorSheet: View {
     private var appsSelectionStepView: some View {
         ZStack(alignment: .bottom) {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Top header decorativo com mini ícones dos apps selecionados
+                VStack(spacing: 16) {
+                    // Top header decorativo com mini ícones autênticos dos apps selecionados
                     HStack(spacing: 6) {
                         ForEach(Array(selectedApps.prefix(4))) { app in
-                            Circle()
-                                .fill(Color(hex: app.iconBgColor))
-                                .frame(width: 22, height: 22)
-                                .overlay(
-                                    Image(systemName: app.systemImage)
-                                        .font(.system(size: 10, weight: .bold))
-                                        .foregroundStyle(Color.white)
-                                )
+                            AppIconView(
+                                urlString: app.thumbnailUrl,
+                                systemImage: app.systemImage,
+                                fallbackBgColor: app.iconBgColor,
+                                appName: app.name,
+                                size: 24
+                            )
                         }
                         if selectedApps.count > 4 {
                             Circle()
                                 .fill(Color(UIColor.secondarySystemFill))
-                                .frame(width: 22, height: 22)
+                                .frame(width: 24, height: 24)
                                 .overlay(
                                     Text("+\(selectedApps.count - 4)")
-                                        .font(.system(size: 9, weight: .bold))
+                                        .font(.system(size: 10, weight: .bold))
                                         .foregroundStyle(Color(UIColor.label))
                                 )
                         }
                     }
-                    .padding(.top, 8)
+                    .padding(.top, 4)
                     
                     // Título Principal e Subtítulo
-                    VStack(spacing: 8) {
+                    VStack(spacing: 6) {
                         Text("Quais serviços você mais usa?")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(Color(UIColor.label))
                             .multilineTextAlignment(.center)
                         
-                        Text("Selecione os apps do gov.br que você tem acesso. Vamos sugerir o prompt e as skills ideais para o seu agente.")
+                        Text("Selecione os apps do ecossistema público que você utiliza. Criamos o prompt e as skills ideais automaticamente.")
                             .font(.subheadline)
                             .foregroundStyle(Color(UIColor.secondaryLabel))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 20)
                     }
                     
-                    // Grid 3 colunas (estilo Image 2)
+                    // Seletor de Esfera (Federal, Estadual, Municipal)
+                    Picker("Esfera", selection: $selectedSphere) {
+                        Text("Todas").tag("Todas")
+                        Text("Federal").tag("Federal")
+                        Text("Estadual").tag("Estadual")
+                        Text("Municipal").tag("Municipal")
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 16)
+                    
+                    // Contagem de resultados
+                    HStack {
+                        Text("\(filteredApps.count) aplicativos disponíveis")
+                            .font(.caption)
+                            .foregroundStyle(Color(UIColor.secondaryLabel))
+                        Spacer()
+                        if !selectedAppIds.isEmpty {
+                            Text("\(selectedAppIds.count) selecionados")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.systemBlue))
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    // Grid 3 colunas (estilo Image 2 com logos autênticos)
                     LazyVGrid(
                         columns: [
                             GridItem(.flexible(), spacing: 12),
@@ -196,7 +234,7 @@ public struct AgentEditorSheet: View {
                         ],
                         spacing: 12
                     ) {
-                        ForEach(GovAppOption.defaultApps) { app in
+                        ForEach(filteredApps) { app in
                             let isSelected = selectedAppIds.contains(app.id)
                             Button {
                                 HapticManager.shared.selection()
@@ -208,19 +246,17 @@ public struct AgentEditorSheet: View {
                                     }
                                 }
                             } label: {
-                                VStack(spacing: 10) {
+                                VStack(spacing: 8) {
                                     ZStack(alignment: .topTrailing) {
-                                        // App Icon Container
-                                        Circle()
-                                            .fill(Color(hex: app.iconBgColor).opacity(0.16))
-                                            .frame(width: 46, height: 46)
-                                            .overlay(
-                                                Image(systemName: app.systemImage)
-                                                    .font(.system(size: 22, weight: .semibold))
-                                                    .foregroundStyle(Color(hex: app.iconBgColor))
-                                            )
+                                        AppIconView(
+                                            urlString: app.thumbnailUrl,
+                                            systemImage: app.systemImage,
+                                            fallbackBgColor: app.iconBgColor,
+                                            appName: app.name,
+                                            size: 46
+                                        )
                                         
-                                        // Checkmark badge when selected
+                                        // Checkmark badge quando selecionado
                                         if isSelected {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .font(.system(size: 16))
@@ -237,17 +273,18 @@ public struct AgentEditorSheet: View {
                                         .foregroundStyle(Color(UIColor.label))
                                         .multilineTextAlignment(.center)
                                         .lineLimit(2)
-                                        .minimumScaleFactor(0.85)
+                                        .minimumScaleFactor(0.8)
+                                        .frame(maxWidth: .infinity, minHeight: 32, alignment: .top)
                                 }
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 108)
+                                .frame(height: 112)
                                 .padding(.horizontal, 6)
                                 .background(Color(UIColor.secondarySystemGroupedBackground))
                                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 18, style: .continuous)
                                         .stroke(
-                                            isSelected ? Color(UIColor.label) : Color(UIColor.separator).opacity(0.6),
+                                            isSelected ? Color(UIColor.label) : Color(UIColor.separator).opacity(0.5),
                                             lineWidth: isSelected ? 2.0 : 0.6
                                         )
                                 )
@@ -263,6 +300,7 @@ public struct AgentEditorSheet: View {
                 }
                 .padding(.vertical, 12)
             }
+            .searchable(text: $searchText, prompt: "Buscar em 110+ apps oficiais...")
             .background(Color(UIColor.systemGroupedBackground))
             
             // Botão Inferior Flutuante "Continuar" (Estilo Image 2)

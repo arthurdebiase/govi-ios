@@ -103,4 +103,29 @@ struct GoviTests {
             #expect(vm.pendingRequests.isEmpty)
         }
     }
+    
+    @Test func testGovernmentAppsCatalogConsistency() async throws {
+        await MainActor.run {
+            let store = GovernmentAppsStore.shared
+            #expect(store.apps.count >= 110)
+            #expect(store.appOptions.count >= 110)
+            #expect(store.govServices.count >= 110)
+            
+            // Verify popular apps exist
+            let appNames = store.apps.map { $0.name }
+            #expect(appNames.contains("gov.br"))
+            #expect(appNames.contains("Meu INSS"))
+            
+            // Verify all apps have official logos (mzstatic or cloudinary)
+            let appsWithLogos = store.apps.filter { $0.thumbnailUrl != nil && $0.thumbnailUrl!.hasPrefix("http") }
+            #expect(appsWithLogos.count == store.apps.count)
+            
+            // Verify MarketplaceViewModel uses catalog
+            let marketVM = MarketplaceViewModel()
+            #expect(marketVM.services.count >= 110)
+            #expect(marketVM.spheres.contains("Federal"))
+            #expect(marketVM.spheres.contains("Estadual"))
+            #expect(marketVM.spheres.contains("Municipal"))
+        }
+    }
 }
