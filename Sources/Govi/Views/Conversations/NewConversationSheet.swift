@@ -82,10 +82,10 @@ public struct NewConversationSheet: View {
                             HapticManager.shared.impact(.light)
                             newAgentDraft = GovBrAgent(
                                 id: "custom-\(UUID().uuidString.prefix(6))",
-                                name: "Meu Agente IA",
-                                description: "Agente personalizado pelo cidadão",
+                                name: "",
+                                description: "",
                                 avatarType: .custom,
-                                systemPrompt: "Você é um assistente virtual gov.br."
+                                systemPrompt: ""
                             )
                             isShowingCreateAgentSheet = true
                         }) {

@@ -17,6 +17,7 @@
 		24F628FDB20BCBA1CD5777D2 /* InviteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */; };
 		2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F74E62C798AF9B92F664CA /* ChatInputBarView.swift */; };
 		2ECD727B818AE558D7FA15C6 /* CivicContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D54CFE57ADD9B30553CE5A /* CivicContact.swift */; };
+		31B52AA5B899BE86815F03F1 /* GovAppOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC23A79549F097809BBF7BE /* GovAppOption.swift */; };
 		402308182F459FD573A8EEDC /* GoviAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89F9BDF55EF86DE777DC13 /* GoviAvatarView.swift */; };
 		41BA198F42CE46780EA1B5AB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5907381D63022200E9527F89 /* UserProfile.swift */; };
 		48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */; };
@@ -87,6 +88,7 @@
 		53D65B0A2B2353CFE5DB50DE /* GoviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GoviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54D54CFE57ADD9B30553CE5A /* CivicContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicContact.swift; sourceTree = "<group>"; };
 		5907381D63022200E9527F89 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		5BC23A79549F097809BBF7BE /* GovAppOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovAppOption.swift; sourceTree = "<group>"; };
 		6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceSheet.swift; sourceTree = "<group>"; };
 		640AF213D0EE5E782A92A291 /* GoviTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviTests.swift; sourceTree = "<group>"; };
 		65A8854529D6D23509AFFB9E /* ScreenItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenItem.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				54D54CFE57ADD9B30553CE5A /* CivicContact.swift */,
 				32F160C35669E733680F5893 /* Conversation.swift */,
 				492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */,
+				5BC23A79549F097809BBF7BE /* GovAppOption.swift */,
 				F5733BE257483354B99DA4BB /* GovService.swift */,
 				45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */,
 				5026C31FA562B6078C3780EF /* MatrixModels.swift */,
@@ -435,6 +438,7 @@
 				B4DF8C5885E288AF3FAF379E /* ConversationsViewModel.swift in Sources */,
 				9D1941B299CBBD6CC3E38F72 /* FutureIntegration.swift in Sources */,
 				66A4D53C4BAC0D130A017F0F /* GlobalSearchView.swift in Sources */,
+				31B52AA5B899BE86815F03F1 /* GovAppOption.swift in Sources */,
 				742668BE625B1831884EAAFD /* GovService.swift in Sources */,
 				D2A9A8DCE5DCB977676A113D /* GoviAPIService.swift in Sources */,
 				5E9152C919355421E95952A8 /* GoviApp.swift in Sources */,
