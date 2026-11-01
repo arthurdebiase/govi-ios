@@ -20,6 +20,7 @@
 		402308182F459FD573A8EEDC /* GoviAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89F9BDF55EF86DE777DC13 /* GoviAvatarView.swift */; };
 		41BA198F42CE46780EA1B5AB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5907381D63022200E9527F89 /* UserProfile.swift */; };
 		48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */; };
+		4E09C25230873802313A80FA /* UINavigationController+SwipeBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086A298AA475C4D1ABC00026 /* UINavigationController+SwipeBack.swift */; };
 		51277AFC41DAD13E43E152C4 /* ActionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB47DCEAD923E82F024D9 /* ActionCard.swift */; };
 		53E20021DFAC256597DCA04F /* NewConversationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE13C55F60A9CEBDC572B2F /* NewConversationSheet.swift */; };
 		57D10A7E4DE464DA73DBD04C /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FBA46724849C2F19051E42 /* HapticManager.swift */; };
@@ -66,6 +67,7 @@
 
 /* Begin PBXFileReference section */
 		059FF5845F89399711050C2B /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		086A298AA475C4D1ABC00026 /* UINavigationController+SwipeBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SwipeBack.swift"; sourceTree = "<group>"; };
 		0A27490AB79E97AF325B6A2F /* GoviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviApp.swift; sourceTree = "<group>"; };
 		0DDA732A1C078A078821A8BF /* GoviAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviAPIService.swift; sourceTree = "<group>"; };
 		10D3C3AB19C116296A99196E /* ScreenGallerySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGallerySheet.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				EB9F0BCE73C980EC850094A4 /* Color+Hex.swift */,
+				086A298AA475C4D1ABC00026 /* UINavigationController+SwipeBack.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */,
 				0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */,
 				96F11A2CAFA642F3FAD9A2F2 /* SuggestedActionsView.swift in Sources */,
+				4E09C25230873802313A80FA /* UINavigationController+SwipeBack.swift in Sources */,
 				41BA198F42CE46780EA1B5AB /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

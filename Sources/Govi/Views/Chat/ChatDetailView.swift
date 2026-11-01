@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct ChatDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     @Bindable public var viewModel: ChatViewModel
     @State private var scrollProxy: ScrollViewProxy?
     
@@ -101,17 +102,6 @@ public struct ChatDetailView: View {
                 }
             }
             
-            // Contextual Suggested Action Chips
-            if let lastMessage = viewModel.conversation.messages.last,
-               let suggestions = lastMessage.suggestedActions,
-               !suggestions.isEmpty,
-               !viewModel.isLoading {
-                SuggestedActionsView(suggestions: suggestions) { suggestion in
-                    viewModel.sendPrompt(suggestion)
-                }
-                .padding(.bottom, 4)
-            }
-            
             // Apple Messages Input Bar
             ChatInputBarView(
                 text: $viewModel.inputText,
@@ -125,62 +115,77 @@ public struct ChatDetailView: View {
             )
         }
         .background(Color(UIColor.systemBackground))
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
-            // Centered Title with Avatar and Tap Gesture (Apple Messages style)
-            ToolbarItem(placement: .principal) {
-                Button(action: {
-                    HapticManager.shared.impact(.light)
-                    viewModel.isShowingContactDetails = true
-                }) {
-                    HStack(spacing: 8) {
-                        AgentAvatarView(
-                            title: viewModel.conversation.displayName,
-                            avatarType: viewModel.conversation.type == "person" ? nil : viewModel.agent.avatarType,
-                            colors: viewModel.conversation.agentColors ?? viewModel.agent.colors,
-                            initials: viewModel.conversation.personInitials,
-                            isOnline: viewModel.conversation.personOnline,
-                            size: 32
-                        )
-                        
-                        VStack(alignment: .leading, spacing: 1) {
-                            HStack(spacing: 4) {
-                                Text(viewModel.conversation.displayName)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(Color(UIColor.label))
-                                
-                                if viewModel.conversation.isCrossSigningVerified {
-                                    Image(systemName: "checkmark.seal.fill")
-                                        .font(.system(size: 11))
-                                        .foregroundStyle(Color(UIColor.systemGreen))
-                                }
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.caption2)
-                                    .foregroundStyle(Color(UIColor.tertiaryLabel))
-                            }
-                            
-                            Text(viewModel.conversation.displaySubtitle)
-                                .font(.caption2)
-                                .foregroundStyle(Color(UIColor.secondaryLabel))
-                                .lineLimit(1)
-                        }
+            // Leading: Botão de voltar e Pill com Avatar + Nome (alinhados à esquerda, sem subtítulo)
+            ToolbarItem(placement: .topBarLeading) {
+                HStack(spacing: 8) {
+                    Button(action: {
+                        HapticManager.shared.impact(.light)
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(Color(UIColor.label))
+                            .frame(width: 36, height: 36)
+                            .background(Color(UIColor.secondarySystemBackground))
+                            .clipShape(Circle())
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Voltar")
+                    
+                    // Pill com Avatar e Nome
+                    Button(action: {
+                        HapticManager.shared.impact(.light)
+                        viewModel.isShowingContactDetails = true
+                    }) {
+                        HStack(spacing: 8) {
+                            AgentAvatarView(
+                                title: viewModel.conversation.displayName,
+                                avatarType: viewModel.conversation.type == "person" ? nil : viewModel.agent.avatarType,
+                                colors: viewModel.conversation.agentColors ?? viewModel.agent.colors,
+                                initials: viewModel.conversation.personInitials,
+                                isOnline: viewModel.conversation.personOnline,
+                                size: 28
+                            )
+                            
+                            Text(viewModel.conversation.displayName)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.label))
+                                .lineLimit(1)
+                            
+                            if viewModel.conversation.isCrossSigningVerified {
+                                Image(systemName: "checkmark.seal.fill")
+                                    .font(.system(size: 11))
+                                    .foregroundStyle(Color(UIColor.systemGreen))
+                            }
+                        }
+                        .padding(.leading, 4)
+                        .padding(.trailing, 12)
+                        .padding(.vertical, 4)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
             
-            // Info Button on Trailing
+            // Trailing: Ícone "..." preto sem círculo de borda
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     HapticManager.shared.impact(.light)
                     viewModel.isShowingContactDetails = true
                 }) {
-                    Image(systemName: "info.circle")
-                        .font(.body)
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundStyle(Color(UIColor.label))
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 8)
                 }
-                .accessibilityLabel("Detalhes do Contato")
+                .buttonStyle(.plain)
+                .accessibilityLabel("Opções da Conversa")
             }
         }
         // Sheets
