@@ -238,9 +238,13 @@ public struct NewConversationSheet: View {
                 }
             }
             .sheet(isPresented: $isShowingInviteSheet) {
-                InviteSheet(userProfile: userProfile)
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.visible)
+                InviteSheet(userProfile: userProfile) { acceptedPayload in
+                    let conv = viewModel.startConversationFromScannedQR(acceptedPayload)
+                    dismiss()
+                    onSelect(conv)
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
             }
         }
         .presentationDetents([.large])

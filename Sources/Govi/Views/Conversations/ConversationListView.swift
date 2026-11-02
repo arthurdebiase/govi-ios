@@ -111,6 +111,13 @@ public struct ConversationListView: View {
             // Sheets
             .sheet(isPresented: $isShowingQRScannerSheet) {
                 QRScannerSheet { scannedPayload in
+                    let scannerProfile = profileViewModel.profile
+                    Task {
+                        await GoviAPIService.shared.acceptQRInvite(
+                            scannedPayload: scannedPayload,
+                            scannerProfile: scannerProfile
+                        )
+                    }
                     let newConv = viewModel.startConversationFromScannedQR(scannedPayload)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                         navigationPath.append(newConv.id)
@@ -122,7 +129,7 @@ public struct ConversationListView: View {
                     viewModel: viewModel,
                     userProfile: profileViewModel.profile
                 ) { newConv in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
                         navigationPath.append(newConv.id)
                     }
                 }

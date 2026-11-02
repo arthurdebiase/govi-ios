@@ -393,4 +393,100 @@ public actor GoviAPIService {
             actionCard: nil
         )
     }
+    
+    // MARK: - Real-Time QR Code Invite Handshake (Two-Way Auto-Navigation)
+    
+    private var localAcceptedInvites: [String: String] = [:]
+    private let remoteBaseURL = URL(string: "https://govi.chat")!
+    
+    private struct QRInviteStatusResponse: Codable {
+        let id: String
+        let status: String
+        let acceptedBy: AcceptedByPayload?
+        
+        struct AcceptedByPayload: Codable {
+            let name: String
+            let mxid: String
+            let level: String
+            let roomId: String?
+            let acceptedUrl: String?
+        }
+    }
+    
+    public func registerQRInvite(_ invite: EphemeralInvite) async {
+        let body: [String: String] = [
+            "id": invite.id,
+            "senderId": invite.senderId,
+            "senderDisplayName": invite.senderDisplayName,
+            "senderAccountLevel": invite.senderAccountLevel.rawValue
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: body) else { return }
+        
+        for hostURL in [baseURL, remoteBaseURL] {
+            var request = URLRequest(url: hostURL.appendingPathComponent("api/govi/invites"))
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            request.timeoutInterval = 3.0
+            _ = try? await session.data(for: request)
+        }
+    }
+    
+    public func checkQRInviteStatus(inviteId: String) async -> String? {
+        let cleanId = inviteId.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        if let localAccepted = localAcceptedInvites[cleanId] {
+            localAcceptedInvites.removeValue(forKey: cleanId)
+            return localAccepted
+        }
+        
+        for hostURL in [baseURL, remoteBaseURL] {
+            var request = URLRequest(url: hostURL.appendingPathComponent("api/govi/invites/\(cleanId)"))
+            request.httpMethod = "GET"
+            request.timeoutInterval = 2.5
+            if let (data, response) = try? await session.data(for: request),
+               let http = response as? HTTPURLResponse,
+               (200...299).contains(http.statusCode),
+               let decoded = try? JSONDecoder().decode(QRInviteStatusResponse.self, from: data),
+               decoded.status == "accepted",
+               let accepted = decoded.acceptedBy {
+                if let urlStr = accepted.acceptedUrl, !urlStr.isEmpty {
+                    return urlStr
+                }
+                let fallbackURL = "https://govi.chat/c/\(cleanId)?name=\(accepted.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accepted.name)&mxid=\(accepted.mxid)&level=\(accepted.level)"
+                return fallbackURL
+            }
+        }
+        return nil
+    }
+    
+    public func acceptQRInvite(scannedPayload: String, scannerProfile: UserProfile) async {
+        let trimmed = scannedPayload.trimmingCharacters(in: .whitespacesAndNewlines)
+        var inviteId: String = UUID().uuidString.prefix(8).lowercased()
+        if let url = URL(string: trimmed) {
+            let last = url.lastPathComponent.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            if !last.isEmpty && last != "/" && last != "c" {
+                inviteId = last
+            }
+        }
+        
+        let scannerMxid = MatrixUserId.fromCpf(scannerProfile.cpf).rawValue
+        let acceptedURL = "https://govi.chat/c/\(inviteId)?name=\(scannerProfile.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? scannerProfile.name)&mxid=\(scannerMxid)&level=\(scannerProfile.accountLevel.rawValue)"
+        localAcceptedInvites[inviteId] = acceptedURL
+        
+        let body: [String: String] = [
+            "scannerName": scannerProfile.name,
+            "scannerMatrixId": scannerMxid,
+            "scannerAccountLevel": scannerProfile.accountLevel.rawValue
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: body) else { return }
+        
+        for hostURL in [baseURL, remoteBaseURL] {
+            var request = URLRequest(url: hostURL.appendingPathComponent("api/govi/invites/\(inviteId)/accept"))
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            request.timeoutInterval = 3.0
+            _ = try? await session.data(for: request)
+        }
+    }
 }

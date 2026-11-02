@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct InviteSheet: View {
     public let userProfile: UserProfile
+    public var onInviteAccepted: ((String) -> Void)?
     @Environment(\.dismiss) private var dismiss
     
     @State private var invite: EphemeralInvite
@@ -9,8 +10,12 @@ public struct InviteSheet: View {
     @State private var timerActive: Bool = true
     @State private var isCopied: Bool = false
     
-    public init(userProfile: UserProfile) {
+    public init(
+        userProfile: UserProfile,
+        onInviteAccepted: ((String) -> Void)? = nil
+    ) {
         self.userProfile = userProfile
+        self.onInviteAccepted = onInviteAccepted
         let newInvite = EphemeralInvite(
             senderId: MatrixUserId.fromCpf(userProfile.cpf).rawValue,
             senderDisplayName: userProfile.name,
@@ -143,6 +148,13 @@ public struct InviteSheet: View {
                                 .fontWeight(.medium)
                         }
                         .padding(.top, 4)
+                        
+                        Button(action: simulateOtherUserScan) {
+                            Label("Simular leitura pelo outro usuário", systemImage: "qrcode.viewfinder")
+                                .font(.caption)
+                                .foregroundStyle(Color(UIColor.secondaryLabel))
+                        }
+                        .padding(.top, 4)
                     }
                     .padding(.horizontal, 24)
                 }
@@ -163,8 +175,16 @@ public struct InviteSheet: View {
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
         .task {
+            await GoviAPIService.shared.registerQRInvite(invite)
             while timerActive && timeRemaining > 0 {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
+                if let acceptedPayload = await GoviAPIService.shared.checkQRInviteStatus(inviteId: invite.id) {
+                    timerActive = false
+                    HapticManager.shared.notification(.success)
+                    dismiss()
+                    onInviteAccepted?(acceptedPayload)
+                    break
+                }
                 if timeRemaining > 0 {
                     timeRemaining -= 1
                     if timeRemaining == 15 {
@@ -173,6 +193,14 @@ public struct InviteSheet: View {
                 }
             }
         }
+    }
+    
+    private func simulateOtherUserScan() {
+        timerActive = false
+        let simulatedPartnerURL = "https://govi.chat/c/\(invite.id)?name=Lucas%20Almeida&mxid=@lucas.almeida:gov.br&level=ouro"
+        HapticManager.shared.notification(.success)
+        dismiss()
+        onInviteAccepted?(simulatedPartnerURL)
     }
     
     private func copyLink() {
@@ -200,5 +228,8 @@ public struct InviteSheet: View {
         self.timeRemaining = 60
         self.timerActive = true
         HapticManager.shared.impact(.medium)
+        Task {
+            await GoviAPIService.shared.registerQRInvite(newInvite)
+        }
     }
 }
