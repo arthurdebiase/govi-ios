@@ -77,18 +77,8 @@ public struct ConversationListView: View {
                     }
                 }
                 
-                // Trailing: QR Code Convite Efêmero & Botão Primário Criar "+"
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    // QR Code / Convite Efêmero 60s
-                    Button {
-                        HapticManager.shared.impact(.light)
-                        isShowingInviteSheet = true
-                    } label: {
-                        Image(systemName: "qrcode")
-                    }
-                    .accessibilityLabel("Meu Convite Seguro")
-                    
-                    // Botão Primário Criar "+" (Fundo azul, ícone branco)
+                // Trailing: Botão Primário Criar "+"
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         HapticManager.shared.impact(.light)
                         isShowingNewConversationSheet = true
@@ -109,14 +99,14 @@ public struct ConversationListView: View {
             }
             // Sheets
             .sheet(isPresented: $isShowingNewConversationSheet) {
-                NewConversationSheet(viewModel: viewModel) { newConv in
+                NewConversationSheet(
+                    viewModel: viewModel,
+                    userProfile: profileViewModel.profile
+                ) { newConv in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                         navigationPath.append(newConv.id)
                     }
                 }
-            }
-            .sheet(isPresented: $isShowingInviteSheet) {
-                InviteSheet(userProfile: profileViewModel.profile)
             }
             .sheet(item: $selectedRequestForConsent) { req in
                 ConversationConsentSheet(

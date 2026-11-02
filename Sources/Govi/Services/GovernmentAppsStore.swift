@@ -156,6 +156,7 @@ public final class GovernmentAppsStore {
                 name: app.name,
                 category: app.category,
                 sphere: app.sphere ?? "Federal",
+                organization: app.organization ?? "Governo Federal",
                 description: app.description,
                 systemImage: systemImage,
                 thumbnailUrl: app.thumbnailUrl,

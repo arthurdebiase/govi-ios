@@ -3,10 +3,12 @@ import SwiftUI
 public struct NewConversationSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var viewModel: ConversationsViewModel
+    public let userProfile: UserProfile
     let onSelect: (Conversation) -> Void
     
     @State private var searchText: String = ""
     @State private var isShowingCreateAgentSheet: Bool = false
+    @State private var isShowingInviteSheet: Bool = false
     @State private var newAgentDraft = GovBrAgent(
         id: "custom-\(UUID().uuidString.prefix(6))",
         name: "",
@@ -17,9 +19,11 @@ public struct NewConversationSheet: View {
     
     public init(
         viewModel: ConversationsViewModel,
+        userProfile: UserProfile = UserProfile(),
         onSelect: @escaping (Conversation) -> Void
     ) {
         self.viewModel = viewModel
+        self.userProfile = userProfile
         self.onSelect = onSelect
     }
     
@@ -47,14 +51,10 @@ public struct NewConversationSheet: View {
                 // Section 0: Quick Action Options (Apple Style)
                 if searchText.isEmpty {
                     Section {
-                        // 1. Nova conversa
+                        // 1. Nova conversa (Abre Convite QR Code Seguro)
                         Button(action: {
                             HapticManager.shared.impact(.light)
-                            if let firstAgent = viewModel.agents.first {
-                                let conv = viewModel.createNewConversation(with: firstAgent)
-                                dismiss()
-                                onSelect(conv)
-                            }
+                            isShowingInviteSheet = true
                         }) {
                             HStack(spacing: 14) {
                                 Circle()
@@ -236,6 +236,11 @@ public struct NewConversationSheet: View {
                     dismiss()
                     onSelect(conv)
                 }
+            }
+            .sheet(isPresented: $isShowingInviteSheet) {
+                InviteSheet(userProfile: userProfile)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
             }
         }
         .presentationDetents([.large])

@@ -6,6 +6,7 @@ public struct GovService: Identifiable, Codable, Sendable, Equatable {
     public let name: String
     public let category: String
     public let sphere: String
+    public let organization: String
     public let description: String
     public let systemImage: String
     public let thumbnailUrl: String?
@@ -21,6 +22,7 @@ public struct GovService: Identifiable, Codable, Sendable, Equatable {
         name: String,
         category: String,
         sphere: String = "Federal",
+        organization: String = "Governo Federal",
         description: String,
         systemImage: String,
         thumbnailUrl: String? = nil,
@@ -35,6 +37,7 @@ public struct GovService: Identifiable, Codable, Sendable, Equatable {
         self.name = name
         self.category = category
         self.sphere = sphere
+        self.organization = organization
         self.description = description
         self.systemImage = systemImage
         self.thumbnailUrl = thumbnailUrl

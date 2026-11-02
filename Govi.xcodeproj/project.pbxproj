@@ -35,6 +35,7 @@
 		78A18599663B76267A3BDC04 /* AgentEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */; };
 		7993B6A05798F04B5D0D5FD4 /* GoviTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640AF213D0EE5E782A92A291 /* GoviTests.swift */; };
 		7A29807C87DB648794C3C9C5 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A34F5D4D4369C84D5953A /* ChatViewModel.swift */; };
+		7AD638B6D49F1227C64FFF5F /* AppDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2AFF13E6E9CBF67CCF494 /* AppDetailSheet.swift */; };
 		7FAECA4704F25DC2774BF5C8 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172493C9E1245C9DCADCD556 /* MessageBubbleView.swift */; };
 		83C4237688A9BA959D693A6E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83340B819ECDCE5672AC8FF7 /* ProfileViewModel.swift */; };
 		880833780D008E452F7312FE /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F160C35669E733680F5893 /* Conversation.swift */; };
@@ -80,6 +81,7 @@
 		172493C9E1245C9DCADCD556 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
 		184E5C6742A8CD52EF67CED4 /* Agent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
 		1B08CC2FD8C0A1D014FF6F7A /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
+		1BA2AFF13E6E9CBF67CCF494 /* AppDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailSheet.swift; sourceTree = "<group>"; };
 		1C89F9BDF55EF86DE777DC13 /* GoviAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoviAvatarView.swift; sourceTree = "<group>"; };
 		208B5979B2DCFC2565E26367 /* AgentAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAvatarView.swift; sourceTree = "<group>"; };
 		2ED4F8F6C4029C4E314F6785 /* SuggestedActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedActionsView.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				4CB2D5F95316F66B87D0D552 /* AgentEditorSheet.swift */,
+				1BA2AFF13E6E9CBF67CCF494 /* AppDetailSheet.swift */,
 				825743F8821D2250073F7DFA /* ContactDetailsSheet.swift */,
 				3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */,
 				F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */,
@@ -438,6 +441,7 @@
 				8C05C6CB596FB7D51BA8BA2A /* Agent.swift in Sources */,
 				48CEA93407EFB290C896EC1B /* AgentAvatarView.swift in Sources */,
 				78A18599663B76267A3BDC04 /* AgentEditorSheet.swift in Sources */,
+				7AD638B6D49F1227C64FFF5F /* AppDetailSheet.swift in Sources */,
 				B6FECBF8523862303CC1F1D0 /* AppIconView.swift in Sources */,
 				B95EDAD7D406FBAA05E82840 /* ChatDetailView.swift in Sources */,
 				2E424B26FC5B7DB36F3E0ED1 /* ChatInputBarView.swift in Sources */,

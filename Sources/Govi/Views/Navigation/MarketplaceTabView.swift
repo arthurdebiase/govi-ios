@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct MarketplaceTabView: View {
     @Bindable public var viewModel: MarketplaceViewModel
+    @State private var selectedDetailService: GovService? = nil
     
     public init(viewModel: MarketplaceViewModel) {
         self.viewModel = viewModel
@@ -26,62 +27,64 @@ public struct MarketplaceTabView: View {
                 
                 Section {
                     ForEach(viewModel.filteredServices) { service in
-                        HStack(alignment: .top, spacing: 14) {
-                            AppIconView(
-                                urlString: service.thumbnailUrl,
-                                systemImage: service.systemImage,
-                                fallbackBgColor: "#0284C7",
-                                appName: service.name,
-                                size: 48
-                            )
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack(spacing: 6) {
-                                    Text(service.name)
-                                        .font(.headline)
-                                        .foregroundStyle(Color(UIColor.label))
-                                        .lineLimit(1)
+                        Button {
+                            HapticManager.shared.selection()
+                            selectedDetailService = service
+                        } label: {
+                            HStack(alignment: .center, spacing: 14) {
+                                AppIconView(
+                                    urlString: service.thumbnailUrl,
+                                    systemImage: service.systemImage,
+                                    fallbackBgColor: "#0284C7",
+                                    appName: service.name,
+                                    size: 48
+                                )
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack(spacing: 6) {
+                                        Text(service.name)
+                                            .font(.headline)
+                                            .foregroundStyle(Color(UIColor.label))
+                                            .lineLimit(1)
+                                        
+                                        Text(service.sphere)
+                                            .font(.system(size: 9, weight: .bold))
+                                            .padding(.horizontal, 6)
+                                            .padding(.vertical, 2)
+                                            .background(sphereBadgeColor(for: service.sphere).opacity(0.14))
+                                            .foregroundStyle(sphereBadgeColor(for: service.sphere))
+                                            .clipShape(Capsule())
+                                    }
                                     
-                                    Text(service.sphere)
-                                        .font(.system(size: 9, weight: .bold))
-                                        .padding(.horizontal, 6)
-                                        .padding(.vertical, 2)
-                                        .background(sphereBadgeColor(for: service.sphere).opacity(0.14))
-                                        .foregroundStyle(sphereBadgeColor(for: service.sphere))
-                                        .clipShape(Capsule())
+                                    Text(service.category)
+                                        .font(.caption2)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(Color(UIColor.secondaryLabel))
+                                    
+                                    Text(service.description)
+                                        .font(.caption)
+                                        .foregroundStyle(Color(UIColor.secondaryLabel))
+                                        .lineLimit(2)
                                 }
                                 
-                                Text(service.category)
-                                    .font(.caption2)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(Color(UIColor.secondaryLabel))
-                                
-                                Text(service.description)
-                                    .font(.caption)
-                                    .foregroundStyle(Color(UIColor.secondaryLabel))
-                                    .lineLimit(2)
+                                Spacer()
                                 
                                 HStack(spacing: 8) {
-                                    Label("\(service.screenCount) telas mapeadas", systemImage: "photo.stack")
-                                        .font(.caption2)
-                                        .foregroundStyle(Color(UIColor.tertiaryLabel))
+                                    if service.isConnected {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(Color(UIColor.systemGreen))
+                                    }
                                     
-                                    Label(service.downloads, systemImage: "arrow.down.circle")
-                                        .font(.caption2)
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 13, weight: .semibold))
                                         .foregroundStyle(Color(UIColor.tertiaryLabel))
                                 }
-                                .padding(.top, 2)
                             }
-                            
-                            Spacer()
-                            
-                            Toggle("", isOn: Binding(
-                                get: { service.isConnected },
-                                set: { _ in viewModel.toggleConnection(for: service.id) }
-                            ))
-                            .labelsHidden()
+                            .contentShape(Rectangle())
+                            .padding(.vertical, 4)
                         }
-                        .padding(.vertical, 4)
+                        .buttonStyle(.plain)
                     }
                 } header: {
                     HStack {
@@ -177,6 +180,15 @@ public struct MarketplaceTabView: View {
             .listStyle(.insetGrouped)
             .searchable(text: $viewModel.searchText, prompt: "Buscar em 110+ apps e serviços...")
             .navigationTitle("Conectar")
+            .sheet(item: $selectedDetailService) { service in
+                AppDetailSheet(
+                    service: service,
+                    isConnected: viewModel.services.first(where: { $0.id == service.id })?.isConnected ?? false,
+                    onToggleConnection: {
+                        viewModel.toggleConnection(for: service.id)
+                    }
+                )
+            }
         }
     }
     
