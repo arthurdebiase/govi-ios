@@ -36,7 +36,13 @@ public struct EphemeralInvite: Identifiable, Codable, Sendable, Equatable {
     }
     
     public var inviteURL: URL {
-        URL(string: "https://govi.chat/c/\(id)")!
+        var components = URLComponents(string: "https://govi.chat/c/\(id)")!
+        components.queryItems = [
+            URLQueryItem(name: "name", value: senderDisplayName),
+            URLQueryItem(name: "mxid", value: senderId),
+            URLQueryItem(name: "level", value: senderAccountLevel.rawValue)
+        ]
+        return components.url ?? URL(string: "https://govi.chat/c/\(id)")!
     }
 }
 

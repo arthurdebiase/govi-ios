@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		029A455C74A94A59B1916510 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF890F688512E52F05B348 /* ProfileTabView.swift */; };
+		0608460F7F58DC5EAB6F3F1F /* QRScannerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40ECA07FCA7DD1B1B3530DA0 /* QRScannerSheet.swift */; };
 		0BAAA7C1EA0C0C7633FA57F6 /* ProfileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC540C00B0DE93C815347452 /* ProfileSheet.swift */; };
 		0FD2205A3D17AEE8EAF1107F /* ConversationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EE1214C6856C27784DFBF /* ConversationListView.swift */; };
 		0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8854529D6D23509AFFB9E /* ScreenItem.swift */; };
@@ -87,6 +88,7 @@
 		2ED4F8F6C4029C4E314F6785 /* SuggestedActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedActionsView.swift; sourceTree = "<group>"; };
 		32F160C35669E733680F5893 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		3C73D2EFEB205E91BCB309F7 /* ConversationConsentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationConsentSheet.swift; sourceTree = "<group>"; };
+		40ECA07FCA7DD1B1B3530DA0 /* QRScannerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerSheet.swift; sourceTree = "<group>"; };
 		42FBA46724849C2F19051E42 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		45B9A5C1ACE35989F26A6BB0 /* InviteAndConsentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteAndConsentModels.swift; sourceTree = "<group>"; };
 		492FE9B25CB5530E33C6CB20 /* FutureIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureIntegration.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				F7EF97037BB6DF2C0F5944F0 /* InviteSheet.swift */,
 				6255DF0AD873A37D0759F0A8 /* MarketplaceSheet.swift */,
 				FC540C00B0DE93C815347452 /* ProfileSheet.swift */,
+				40ECA07FCA7DD1B1B3530DA0 /* QRScannerSheet.swift */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				029A455C74A94A59B1916510 /* ProfileTabView.swift in Sources */,
 				83C4237688A9BA959D693A6E /* ProfileViewModel.swift in Sources */,
 				BA717B798147893C50777D7C /* QRCodeGenerator.swift in Sources */,
+				0608460F7F58DC5EAB6F3F1F /* QRScannerSheet.swift in Sources */,
 				F34D6E4AF3BB5676A8DF571C /* ScreenGallerySheet.swift in Sources */,
 				0FFF33D7AEC8F93A408D964F /* ScreenItem.swift in Sources */,
 				96F11A2CAFA642F3FAD9A2F2 /* SuggestedActionsView.swift in Sources */,
@@ -508,6 +512,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Govi;
+				INFOPLIST_KEY_NSCameraUsageDescription = "O Govi utiliza a câmera para escanear o QR Code de convite de outro usuário e iniciar uma conversa criptografada.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -691,6 +696,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Govi;
+				INFOPLIST_KEY_NSCameraUsageDescription = "O Govi utiliza a câmera para escanear o QR Code de convite de outro usuário e iniciar uma conversa criptografada.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

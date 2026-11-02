@@ -217,6 +217,73 @@ public final class ConversationsViewModel {
         return newConv
     }
     
+    public func startConversationFromScannedQR(_ scannedPayload: String) -> Conversation {
+        let trimmed = scannedPayload.trimmingCharacters(in: .whitespacesAndNewlines)
+        var resolvedName = "Cidadão Verificado gov.br"
+        var resolvedMatrixId = "@cidadao.\(UUID().uuidString.prefix(4).lowercased()):gov.br"
+        var resolvedRole = "Cidadão Conectado via QR Code • Conta Ouro gov.br"
+        
+        if let url = URL(string: trimmed), let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            if let nameParam = components.queryItems?.first(where: { $0.name == "name" })?.value, !nameParam.isEmpty {
+                resolvedName = nameParam
+            } else if let inviteCode = url.pathComponents.last, !inviteCode.isEmpty, inviteCode != "/" {
+                resolvedName = "Cidadão (\(inviteCode.uppercased()))"
+            }
+            if let mxidParam = components.queryItems?.first(where: { $0.name == "mxid" })?.value, !mxidParam.isEmpty {
+                resolvedMatrixId = mxidParam
+            }
+            if let levelParam = components.queryItems?.first(where: { $0.name == "level" })?.value, !levelParam.isEmpty {
+                resolvedRole = "Conexão QR Segura • Conta \(levelParam.capitalized) gov.br"
+            }
+        } else if trimmed.hasPrefix("@") {
+            resolvedMatrixId = trimmed
+            let localpart = trimmed.dropFirst().split(separator: ":").first.map(String.init) ?? "cidadao"
+            resolvedName = localpart.replacingOccurrences(of: ".", with: " ").capitalized
+        } else if !trimmed.isEmpty {
+            resolvedName = trimmed
+        }
+        
+        if let existing = conversations.first(where: { $0.matrixPartnerId == resolvedMatrixId }) {
+            return existing
+        }
+        
+        let words = resolvedName.split(separator: " ")
+        let initials: String
+        if words.count >= 2 {
+            initials = "\(words[0].prefix(1))\(words[1].prefix(1))".uppercased()
+        } else {
+            initials = String(resolvedName.prefix(2)).uppercased()
+        }
+        
+        let now = Date()
+        let newConv = Conversation(
+            id: "conv-\(UUID().uuidString.prefix(8))",
+            type: "person",
+            title: resolvedName,
+            personName: resolvedName,
+            personRole: resolvedRole,
+            personInitials: initials,
+            personOnline: true,
+            matrixRoomId: "!qr_\(UUID().uuidString.prefix(6)):gov.br",
+            matrixPartnerId: resolvedMatrixId,
+            isE2EEEncrypted: true,
+            isCrossSigningVerified: true,
+            homeserverDomain: "gov.br",
+            messages: [
+                Message(
+                    role: .assistant,
+                    content: "🔒 Conexão estabelecida via leitura de QR Code com **\(resolvedName)**. Criptografia ponta a ponta Matrix (Olm/Megolm) ativa.",
+                    timestamp: "Agora"
+                )
+            ],
+            createdAt: now,
+            updatedAt: now
+        )
+        conversations.insert(newConv, at: 0)
+        HapticManager.shared.notification(.success)
+        return newConv
+    }
+    
     private static func loadDefaultConversations() -> [Conversation] {
         let now = Date()
         

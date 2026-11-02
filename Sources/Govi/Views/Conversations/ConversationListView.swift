@@ -5,7 +5,7 @@ public struct ConversationListView: View {
     @Bindable public var profileViewModel: ProfileViewModel
     @Bindable public var marketplaceViewModel: MarketplaceViewModel
     
-    @State private var isShowingInviteSheet: Bool = false
+    @State private var isShowingQRScannerSheet: Bool = false
     @State private var isShowingNewConversationSheet: Bool = false
     @State private var selectedRequestForConsent: ConversationRequest?
     @State private var navigationPath = NavigationPath()
@@ -70,34 +70,53 @@ public struct ConversationListView: View {
                                 Label("Marcar tudo como Lido", systemImage: "envelope.open")
                             }
                         } label: {
-                            Image(systemName: "ellipsis.circle")
-                                .font(.body)
+                            Image(systemName: "ellipsis")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(Color(UIColor.label))
                         }
                         .accessibilityLabel("Opções de conversa")
                     }
                 }
                 
-                // Trailing: Botão Primário Criar "+"
+                // Trailing 1: Câmera para Escanear QR Code
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        HapticManager.shared.impact(.light)
+                        isShowingQRScannerSheet = true
+                    } label: {
+                        Image(systemName: "camera")
+                            .foregroundStyle(Color(UIColor.label))
+                    }
+                    .accessibilityLabel("Escanear QR Code")
+                }
+                
+                if #available(iOS 26.0, *) {
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                }
+                
+                // Trailing 2: Botão Primário Criar "+" (Separado e Primary)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         HapticManager.shared.impact(.light)
                         isShowingNewConversationSheet = true
                     } label: {
-                        ZStack {
-                            Circle()
-                                .fill(Color(UIColor.systemBlue))
-                                .frame(width: 32, height: 32)
-                            
-                            Image(systemName: "plus")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundStyle(Color.white)
-                        }
+                        Image(systemName: "plus")
+                            .fontWeight(.semibold)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color(UIColor.systemBlue))
                     .accessibilityLabel("Nova Conversa")
                 }
             }
             // Sheets
+            .sheet(isPresented: $isShowingQRScannerSheet) {
+                QRScannerSheet { scannedPayload in
+                    let newConv = viewModel.startConversationFromScannedQR(scannedPayload)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        navigationPath.append(newConv.id)
+                    }
+                }
+            }
             .sheet(isPresented: $isShowingNewConversationSheet) {
                 NewConversationSheet(
                     viewModel: viewModel,
